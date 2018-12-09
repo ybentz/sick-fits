@@ -30,9 +30,6 @@ const ItemList = styled.div`
 `;
 
 class Items extends Component {
-  componentWillUpdate(nextProps, nextState) {
-    console.log('Update!');
-  }
   render() {
     return (
       <Center>
