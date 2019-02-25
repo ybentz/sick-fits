@@ -58,14 +58,31 @@ const Mutations = {
       },
       info
     );
+    generateToken(user.id, ctx);
+    return user;
+  },
 
-    const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
-    ctx.response.cookie('token', token, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year
-    });
+  async signin(parent, args, ctx, info) {
+    const { email, password } = args;
+    const user = await ctx.db.query.user({ where: { email } });
+    if (!user) {
+      throw new Error('No such user');
+    }
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) {
+      throw new Error('Wrong password');
+    }
+    generateToken(user.id, ctx);
     return user;
   }
+};
+
+const generateToken = (userId, ctx) => {
+  const token = jwt.sign({ userId }, process.env.APP_SECRET);
+  ctx.response.cookie('token', token, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year
+  });
 };
 
 module.exports = Mutations;
