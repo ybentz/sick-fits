@@ -74,6 +74,13 @@ const Mutations = {
     }
     generateToken(user.id, ctx);
     return user;
+  },
+
+  async signout(parent, args, ctx, info) {
+    ctx.response.clearCookie('token', {
+      httpOnly: true
+    });
+    return { message: 'Yalla Bye' };
   }
 };
 
