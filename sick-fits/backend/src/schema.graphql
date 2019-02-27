@@ -1,5 +1,14 @@
 # import * from './generated/prisma.graphql'
 
+# copied this from the generated schema and removed BE-only sensitive fields (pwd, tokens, etc..)
+# so they will never appear on the FE
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  permissions: [Permission!]!
+}
+
 type SuccessMessage {
   message: String
 }
@@ -17,6 +26,13 @@ type Mutation {
   signup(email: String!, password: String!, name: String!): User!
   signin(email: String!, password: String!): User!
   signout: SuccessMessage
+  requestPasswordReset(email: String!): SuccessMessage
+  resetPassword(
+    email: String!
+    resetToken: String!
+    password: String!
+    confirmPassword: String!
+  ): User!
 }
 
 type Query {

@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { randomBytes } = require('crypto');
+const { promisify } = require('util');
 
 // These are the mutation resolvers - the implementation of the mutations on the BE
 const Mutations = {
@@ -81,6 +83,53 @@ const Mutations = {
       httpOnly: true
     });
     return { message: 'Yalla Bye' };
+  },
+
+  async requestPasswordReset(parent, args, ctx, info) {
+    const { email } = args;
+    const user = await ctx.db.query.user({ where: { email } });
+    if (!user) {
+      throw new Error('No such user');
+    }
+    // create reset token
+    const promisifiedRandomBytes = promisify(randomBytes);
+    const resetToken = (await promisifiedRandomBytes(20)).toString('hex');
+    const resetTokenExpiry = Date.now() + 1000 * 60 * 60; // 1hr from now
+    const res = await ctx.db.mutation.updateUser({
+      where: { email },
+      data: { resetToken, resetTokenExpiry }
+    });
+    // TODO - send email to user with a link that includes the token
+    // TODO - don't forget that I'm passing the email to the reset password mutation as arg and wes did not!
+    return { message: `success! token: ${resetToken}` };
+  },
+
+  async resetPassword(parent, args, ctx, info) {
+    const { password, confirmPassword, resetToken, email } = args;
+    if (password !== confirmPassword) {
+      throw new Error('Passwords do not match!');
+    }
+    const [user] = await ctx.db.query.users({
+      where: {
+        email,
+        resetToken,
+        resetTokenExpiry_gte: Date.now() - 1000 * 60 * 60
+      }
+    });
+    if (!user) {
+      throw new Error('No such user');
+    }
+    const passwordHash = await bcrypt.hash(password, 10);
+    const res = await ctx.db.mutation.updateUser({
+      where: { email },
+      data: {
+        password: passwordHash,
+        resetToken: null,
+        resetTokenExpiry: null
+      }
+    });
+    generateToken(user.id, ctx);
+    return user;
   }
 };
 
