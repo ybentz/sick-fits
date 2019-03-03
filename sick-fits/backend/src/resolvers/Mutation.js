@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 
+const { transport, makeNoiceEmail } = require('../mail');
+
 // These are the mutation resolvers - the implementation of the mutations on the BE
 const Mutations = {
   async createItem(parent, args, ctx, info) {
@@ -99,8 +101,19 @@ const Mutations = {
       where: { email },
       data: { resetToken, resetTokenExpiry }
     });
-    // TODO - send email to user with a link that includes the token
-    // TODO - don't forget that I'm passing the email to the reset password mutation as arg and wes did not!
+    const resetUrl = `${
+      process.env.FRONTEND_URL
+    }/reset?resetToken=${resetToken}&email=${encodeURIComponent(email)}`;
+    const mailRes = transport.sendMail({
+      from: 'ybentzur7@gmail.com',
+      to: user.email,
+      subject: 'Your password reset link!',
+      html: makeNoiceEmail(
+        `Your password reset link is here!
+        \n\n
+        <a href="${resetUrl}">Click here to reset your password</a>`
+      )
+    });
     return { message: `success! token: ${resetToken}` };
   },
 
