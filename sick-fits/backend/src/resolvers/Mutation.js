@@ -9,11 +9,19 @@ const { transport, makeNoiceEmail } = require('../mail');
 const Mutations = {
   async createItem(parent, args, ctx, info) {
     // TODO - check if logged in
-
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that!');
+    }
     const item = await ctx.db.mutation.createItem(
       {
         data: {
-          ...args
+          ...args,
+          // this is how we create a relationship between an item and a user in the DB
+          user: {
+            connect: {
+              id: ctx.request.userId
+            }
+          }
         }
       },
       info
