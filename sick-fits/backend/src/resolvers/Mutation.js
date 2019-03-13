@@ -4,11 +4,11 @@ const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 
 const { transport, makeNoiceEmail } = require('../mail');
+const { hasPermission } = require('../utils');
 
 // These are the mutation resolvers - the implementation of the mutations on the BE
 const Mutations = {
   async createItem(parent, args, ctx, info) {
-    // TODO - check if logged in
     if (!ctx.request.userId) {
       throw new Error('You must be logged in to do that!');
     }
@@ -151,6 +151,31 @@ const Mutations = {
     });
     generateToken(user.id, ctx);
     return user;
+  },
+  async updatePermissions(parent, args, ctx, info) {
+    // check that user is logged in
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that!');
+    }
+    const currentUser = await ctx.db.query.user(
+      { where: { id: ctx.request.userId } },
+      info
+    );
+    // make sure user has permission to do this
+    const { permissions, userId } = args;
+    hasPermission(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
+    return ctx.db.mutation.updateUser(
+      {
+        where: { id: userId },
+        data: {
+          permissions: {
+            // set has to be used since permissions are a prisma/graphQL enum
+            set: permissions
+          }
+        }
+      },
+      info
+    );
   }
 };
 
