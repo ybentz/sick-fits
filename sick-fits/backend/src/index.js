@@ -23,7 +23,6 @@ server.express.use((req, res, next) => {
 // to fetch the user data even if it's not needed at all (e.g. when fetching the items list)
 server.express.use(async (req, res, next) => {
   if (!req.userId) return next();
-  const { userId } = req;
   const user = await db.query.user(
     { where: { id: req.userId } },
     '{ id, name, email, permissions }'
