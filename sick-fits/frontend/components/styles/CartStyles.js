@@ -18,6 +18,7 @@ const CartStyles = styled.div`
   display: grid;
   grid-template-rows: auto 1fr auto;
   ${props => props.open && `transform: translateX(0);`};
+  overflow: auto;
   header {
     border-bottom: 5px solid ${props => props.theme.black};
     margin-bottom: 2rem;

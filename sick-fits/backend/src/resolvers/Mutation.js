@@ -221,6 +221,25 @@ const Mutations = {
       },
       info
     );
+  },
+  async removeFromCart(parent, args, ctx, info) {
+    const { id } = args;
+    const cartItem = await ctx.db.query.cartItem(
+      { where: { id } },
+      `{id, user { id }}`
+    );
+    if (!cartItem) {
+      throw new Error('No Such Cart Item!');
+    }
+    if (cartItem.user.id !== ctx.request.userId) {
+      throw new Error('Not cool...');
+    }
+    return ctx.db.mutation.deleteCartItem(
+      {
+        where: { id }
+      },
+      info
+    );
   }
 };
 
