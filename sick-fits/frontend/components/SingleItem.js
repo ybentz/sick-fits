@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
-import styled from 'styled-components';
-import Head from 'next/head';
-import Error from './ErrorMessage';
+import React, { Component } from 'react'
+import gql from 'graphql-tag'
+import { Query } from 'react-apollo'
+import styled from 'styled-components'
+import Head from 'next/head'
+import Error from './ErrorMessage'
 
 const SingleItemStyles = styled.div`
   max-width: 1200px;
@@ -22,7 +22,7 @@ const SingleItemStyles = styled.div`
     margin: 3rem;
     font-size: 2rem;
   }
-`;
+`
 
 const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {
@@ -33,17 +33,17 @@ const SINGLE_ITEM_QUERY = gql`
       largeImage
     }
   }
-`;
+`
 
 class SingleItem extends Component {
   render() {
     return (
       <Query query={SINGLE_ITEM_QUERY} variables={{ id: this.props.id }}>
         {({ error, loading, data }) => {
-          if (error) return <Error error={error} />;
-          if (loading) return <p>Loading...</p>;
-          if (!data.item) return <p>No item found for {this.props.id}</p>;
-          const { item } = data;
+          if (error) return <Error error={error} />
+          if (loading) return <p>Loading...</p>
+          if (!data.item) return <p>No item found for {this.props.id}</p>
+          const { item } = data
 
           return (
             <SingleItemStyles>
@@ -56,11 +56,12 @@ class SingleItem extends Component {
                 <p>{item.description}</p>
               </div>
             </SingleItemStyles>
-          );
+          )
         }}
       </Query>
-    );
+    )
   }
 }
 
-export default SingleItem;
+export default SingleItem
+export { SINGLE_ITEM_QUERY }
