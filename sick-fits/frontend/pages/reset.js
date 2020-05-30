@@ -1,12 +1,15 @@
-import ResetPassword from '../components/ResetPassword';
+import { useRouter } from 'next/router'
 
-const Reset = props => (
-  <div>
-    <ResetPassword
-      resetToken={props.query.resetToken}
-      email={props.query.email}
-    />
-  </div>
-);
+import ResetPassword from '../components/ResetPassword'
 
-export default Reset;
+const Reset = (props) => {
+  const { query } = useRouter()
+
+  return (
+    <div>
+      <ResetPassword resetToken={query.resetToken} email={query.email} />
+    </div>
+  )
+}
+
+export default Reset

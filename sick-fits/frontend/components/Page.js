@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styled, {ThemeProvider, injectGlobal} from 'styled-components'
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 
 import Header from './Header';
 import Meta from './Meta';
@@ -17,10 +17,10 @@ const theme = {
   }
 }
 
-injectGlobal`
+const GlobalStyles = createGlobalStyle`
   @font-face {
     font-family: 'radnika_next';
-    src: url('/static/radnikanext-medium-webfont.woff2') format('woff2');
+    src: url('/radnikanext-medium-webfont.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
   }
@@ -62,6 +62,7 @@ class Page extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
+        <GlobalStyles />
         <StyledPage>
           <Meta />
           <Header />

@@ -1,5 +1,5 @@
 // This is a render prop component that fetches the current user data
-import { Query } from 'react-apollo';
+import { Query, useQuery } from 'react-apollo'
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 
@@ -25,6 +25,13 @@ const CURRENT_USER_QUERY = gql`
   }
 `;
 
+function useUser() {
+  const { data } = useQuery(CURRENT_USER_QUERY)
+  if (data) {
+    return data.me
+  }
+}
+
 const User = props => (
   <Query {...props} query={CURRENT_USER_QUERY}>
     {payload => props.children(payload)}
@@ -36,4 +43,4 @@ User.propTypes = {
 };
 
 export default User;
-export { CURRENT_USER_QUERY };
+export { CURRENT_USER_QUERY, useUser }

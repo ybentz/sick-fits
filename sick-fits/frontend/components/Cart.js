@@ -3,8 +3,8 @@ import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { adopt } from 'react-adopt';
 
-import User from './User';
 import CartItem from './CartItem';
+import User, { useUser } from './User'
 import CartStyles from './styles/CartStyles';
 import Supreme from './styles/Supreme';
 import CloseButton from './styles/CloseButton';
@@ -28,10 +28,8 @@ const TOGGLE_CART_MUTATION = gql`
 
 const Composed = adopt({
   // This works but generates an error in the console on run time, the code that's not commented out just removes the error
-  // user: <User/>,
   // toggleCart: <Mutation mutation={TOGGLE_CART_MUTATION} />,
   // localState: <Query query={LOCAL_STATE_QUERY}/>
-  user: ({ render }) => <User>{render}</User>,
   toggleCart: ({ render }) => (
     <Mutation mutation={TOGGLE_CART_MUTATION}>{render}</Mutation>
   ),
@@ -39,28 +37,29 @@ const Composed = adopt({
 });
 
 const Cart = () => {
+  const user = useUser()
+
   return (
     <Composed>
-      {({ user, toggleCart, localState }) => {
-        const { me } = user.data;
-        if (!me) return null;
+      {({ toggleCart, localState }) => {
+        if (!user) return null
         return (
           <CartStyles open={localState.data.cartOpen}>
             <header>
               <CloseButton title="close" onClick={toggleCart}>
                 &times;
               </CloseButton>
-              <Supreme>{me.name}'s Cart</Supreme>
+              <Supreme>{user.name}'s Cart</Supreme>
               <p>
-                You have {me.cart.length} item
-                {me.cart.length === 1 ? '' : 's'} in your cart
+                You have {user.cart.length} item
+                {user.cart.length === 1 ? '' : 's'} in your cart
               </p>
             </header>
-            {me.cart.map(cartItem => (
+            {user.cart.map((cartItem) => (
               <CartItem cartItem={cartItem} key={cartItem.id} />
             ))}
             <footer>
-              <p>{formatMoney(calcTotalPrice(me.cart))}</p>
+              <p>{formatMoney(calcTotalPrice(user.cart))}</p>
               <SickButton>Checkout</SickButton>
             </footer>
           </CartStyles>

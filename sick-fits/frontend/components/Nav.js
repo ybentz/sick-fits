@@ -1,54 +1,45 @@
 import Link from 'next/link'
-import { Mutation } from 'react-apollo'
+import { useMutation } from 'react-apollo'
 import NavStyles from './styles/NavStyles'
-import User from './User'
+import User, { useUser } from './User'
 import Signout from './Signout'
 import { TOGGLE_CART_MUTATION } from './Cart'
 import CartCount from './CartCount'
 
 const Nav = () => {
+  const user = useUser()
+  const [toggleCart, { data }] = useMutation(TOGGLE_CART_MUTATION)
   return (
-    <User>
-      {({ data: { me } }) => (
-        <NavStyles data-test="nav">
-          <Link href="/items">
-            <a>Shop</a>
+    <NavStyles data-test="nav">
+      <Link href="/items">
+        <a>Shop</a>
+      </Link>
+      {user && (
+        <>
+          <Link href="/sell">
+            <a>Sell</a>
           </Link>
-          {me && (
-            <>
-              <Link href="/sell">
-                <a>Sell</a>
-              </Link>
-              <Link href="/orders">
-                <a>Orders</a>
-              </Link>
-              <Link href="/me">
-                <a>Account</a>
-              </Link>
-              <Signout />
-              <Mutation mutation={TOGGLE_CART_MUTATION}>
-                {toggleCart => (
-                  <button onClick={toggleCart}>
-                    My Cart
-                    <CartCount
-                      count={me.cart.reduce(
-                        (acc, item) => acc + item.quantity,
-                        0
-                      )}
-                    />
-                  </button>
-                )}
-              </Mutation>
-            </>
-          )}
-          {!me && (
-            <Link href="/signup">
-              <a>Signin</a>
-            </Link>
-          )}
-        </NavStyles>
+          <Link href="/orders">
+            <a>Orders</a>
+          </Link>
+          <Link href="/me">
+            <a>Account</a>
+          </Link>
+          <Signout />
+          <button onClick={toggleCart}>
+            My Cart
+            <CartCount
+              count={user.cart.reduce((acc, item) => acc + item.quantity, 0)}
+            />
+          </button>
+        </>
       )}
-    </User>
+      {!user && (
+        <Link href="/signup">
+          <a>Signin</a>
+        </Link>
+      )}
+    </NavStyles>
   )
 }
 
