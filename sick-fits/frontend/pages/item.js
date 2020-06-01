@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 
 import SingleItem from '../components/SingleItem'
 
-const Item = (props) => {
+function Item(props) {
   const { query } = useRouter()
 
   return (

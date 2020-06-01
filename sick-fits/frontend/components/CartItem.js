@@ -20,7 +20,7 @@ const CartItemStyles = styled.li`
   }
 `;
 
-const CartItem = ({ cartItem }) => {
+function CartItem({ cartItem }) {
   if (!cartItem.item)
     return (
       <CartItemStyles>

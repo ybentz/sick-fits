@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query, Mutation } from 'react-apollo';
+import { useQuery, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 
@@ -41,35 +41,37 @@ const ALL_USERS_QUERY = gql`
   }
 `;
 
-const Permissions = props => (
-  <Query query={ALL_USERS_QUERY}>
-    {({ data, loading, error }) => (
+function Permissions(props) {
+  const { data, error, loading } = useQuery(ALL_USERS_QUERY)
+
+  if (loading) return <p>Loading...</p>
+  if (!data?.users) return <p>Nothing to show here!</p>
+  return (
+    <div>
+      <Error error={error} />
       <div>
-        <Error error={error} />
-        <div>
-          <h2>Manage Permissions</h2>
-          <Table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                {validPermissions.map(permission => (
-                  <th key={permission}>{permission}</th>
-                ))}
-                <th>🤦‍♂️</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.users.map(user => (
-                <UserPermissions user={user} key={user.id} />
+        <h2>Manage Permissions</h2>
+        <Table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              {validPermissions.map(permission => (
+                <th key={permission}>{permission}</th>
               ))}
-            </tbody>
-          </Table>
-        </div>
+              <th>🤦‍♂️</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.users.map(user => (
+              <UserPermissions user={user} key={user.id} />
+            ))}
+          </tbody>
+        </Table>
       </div>
-    )}
-  </Query>
-);
+    </div>
+  )
+};
 
 class UserPermissions extends React.Component {
   static propTypes = {

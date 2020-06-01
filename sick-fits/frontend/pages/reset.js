@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 
 import ResetPassword from '../components/ResetPassword'
 
-const Reset = (props) => {
+function Reset(props) {
   const { query } = useRouter()
 
   return (

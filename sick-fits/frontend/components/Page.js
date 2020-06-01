@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 
 import Header from './Header';
@@ -58,21 +58,19 @@ const PageContent = styled.div`
   padding: 2rem;
 `
 
-class Page extends Component {
-  render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        <StyledPage>
-          <Meta />
-          <Header />
-          <PageContent>
-            { this.props.children }
-          </PageContent>
-        </StyledPage>
-      </ThemeProvider>
-    )
-  }
+function Page(props) {
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <StyledPage>
+        <Meta />
+        <Header />
+        <PageContent>
+          { props.children }
+        </PageContent>
+      </StyledPage>
+    </ThemeProvider>
+  )
 }
 
 export default Page

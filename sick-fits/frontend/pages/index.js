@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 
 import Items from '../components/Items'
 
-const Home = (props) => {
+function Home(props) {
   const { query } = useRouter()
 
   return (

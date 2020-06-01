@@ -1,14 +1,15 @@
 import Link from 'next/link'
 import { useMutation } from 'react-apollo'
 import NavStyles from './styles/NavStyles'
-import User, { useUser } from './User'
+import { useUser } from './User'
 import Signout from './Signout'
 import { TOGGLE_CART_MUTATION } from './Cart'
 import CartCount from './CartCount'
 
-const Nav = () => {
+function Nav() {
   const user = useUser()
   const [toggleCart, { data }] = useMutation(TOGGLE_CART_MUTATION)
+
   return (
     <NavStyles data-test="nav">
       <Link href="/items">

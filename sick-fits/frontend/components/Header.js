@@ -54,7 +54,7 @@ const StyledHeader = styled.header`
   }
 `;
 
-const Header = () => {
+function Header() {
   return (
     <StyledHeader>
       <div className="bar">

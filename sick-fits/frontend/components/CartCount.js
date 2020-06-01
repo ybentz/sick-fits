@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const AnimationStyles = styled.span`
@@ -41,20 +40,22 @@ const Dot = styled.div`
   font-variant-numeric: tabular-nums;
 `;
 
-const CartCount = ({ count }) => (
-  <AnimationStyles>
-    <TransitionGroup>
-      <CSSTransition
-        unmountOnExit
-        className="count"
-        classNames="count"
-        key={count}
-        timeout={{ enter: 300, exit: 300 }}
-      >
-        <Dot>{count}</Dot>
-      </CSSTransition>
-    </TransitionGroup>
-  </AnimationStyles>
-);
+function CartCount({ count }) {
+  return (
+    <AnimationStyles>
+      <TransitionGroup>
+        <CSSTransition
+          unmountOnExit
+          className="count"
+          classNames="count"
+          key={count}
+          timeout={{ enter: 300, exit: 300 }}
+        >
+          <Dot>{count}</Dot>
+        </CSSTransition>
+      </TransitionGroup>
+    </AnimationStyles>
+  )
+};
 
 export default CartCount;
