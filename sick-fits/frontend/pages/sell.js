@@ -1,5 +1,5 @@
-import CreateItem from '../components/CreateItem';
-import PleaseSignIn from '../components/PleaseSignIn';
+import CreateItem from '../components/CreateItem'
+import PleaseSignIn from '../components/PleaseSignIn'
 
 function Sell(props) {
   return (
@@ -11,4 +11,4 @@ function Sell(props) {
   )
 }
 
-export default Sell;
+export default Sell

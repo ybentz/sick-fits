@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import React from 'react'
+import styled from 'styled-components'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 const AnimationStyles = styled.span`
   position: relative;
@@ -24,10 +24,10 @@ const AnimationStyles = styled.span`
   .count-exit-active {
     transform: rotateX(0.5turn);
   }
-`;
+`
 
 const Dot = styled.div`
-  background: ${props => props.theme.red};
+  background: ${(props) => props.theme.red};
   color: white;
   border-radius: 50%;
   padding: 0.25rem;
@@ -38,7 +38,7 @@ const Dot = styled.div`
   /* keep the dot the same size regardless of how wide the number inside is */
   font-feature-settings: 'tnum';
   font-variant-numeric: tabular-nums;
-`;
+`
 
 function CartCount({ count }) {
   return (
@@ -56,6 +56,6 @@ function CartCount({ count }) {
       </TransitionGroup>
     </AnimationStyles>
   )
-};
+}
 
-export default CartCount;
+export default CartCount

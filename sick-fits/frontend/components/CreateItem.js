@@ -33,7 +33,7 @@ class CreateItem extends Component {
     image: 'shoe.jpg',
     largeImage: 'big-shoe.jpg',
   }
-  
+
   onChange = (e) => {
     const { name, type, value } = e.target
     const val = type === 'number' ? parseFloat(value) : value
@@ -46,10 +46,13 @@ class CreateItem extends Component {
     data.append('file', files[0])
     data.append('upload_preset', 'sickfits')
 
-    const res = await fetch('https://api.cloudinary.com/v1_1/ybentz/image/upload', {
-      method: 'POST',
-      body: data,
-    })
+    const res = await fetch(
+      'https://api.cloudinary.com/v1_1/ybentz/image/upload',
+      {
+        method: 'POST',
+        body: data,
+      }
+    )
 
     const file = await res.json()
     this.setState({
@@ -60,51 +63,65 @@ class CreateItem extends Component {
 
   render() {
     return (
-      <Mutation
-        mutation={CREATE_ITEM_MUTATION}
-        variables={this.state}>
+      <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
         {(createItem, { loading, error }) => (
-          <Form onSubmit={ async (e) => {
-            e.preventDefault()
-            const res = await createItem()
-            Router.push({
-              pathname: '/item',
-              query: { id: res.data.createItem.id }
-            })
-          }}>
-            <Error error={error}/>
+          <Form
+            onSubmit={async (e) => {
+              e.preventDefault()
+              const res = await createItem()
+              Router.push({
+                pathname: '/item',
+                query: { id: res.data.createItem.id },
+              })
+            }}
+          >
+            <Error error={error} />
             <fieldset disabled={loading} aria-busy={loading}>
               <label htmlFor="file">
                 Image
                 <input
-                  type="file" id="file"
-                  name="file" placeholder="Upload image"
+                  type="file"
+                  id="file"
+                  name="file"
+                  placeholder="Upload image"
                   required
-                  onChange={this.uploadFile}/>
+                  onChange={this.uploadFile}
+                />
               </label>
               <label htmlFor="title">
                 Title
                 <input
-                  type="text" id="title"
-                  name="title" placeholder="Title"
-                  required value={this.state.title}
-                  onChange={this.onChange}/>
+                  type="text"
+                  id="title"
+                  name="title"
+                  placeholder="Title"
+                  required
+                  value={this.state.title}
+                  onChange={this.onChange}
+                />
               </label>
               <label htmlFor="description">
                 Description
                 <textarea
                   id="description"
-                  name="description" placeholder="Enter a description"
-                  required value={this.state.description}
-                  onChange={this.onChange}/>
+                  name="description"
+                  placeholder="Enter a description"
+                  required
+                  value={this.state.description}
+                  onChange={this.onChange}
+                />
               </label>
               <label htmlFor="price">
                 Price
                 <input
-                  type="number" id="price"
-                  name="price" placeholder="Price"
-                  required value={this.state.price}
-                  onChange={this.onChange}/>
+                  type="number"
+                  id="price"
+                  name="price"
+                  placeholder="Price"
+                  required
+                  value={this.state.price}
+                  onChange={this.onChange}
+                />
               </label>
               <button type="submit">Submit</button>
             </fieldset>

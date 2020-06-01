@@ -24,7 +24,7 @@ const SEARCH_ITEMS_QUERY = gql`
   }
 `
 
-const routeToItem = item => {
+const routeToItem = (item) => {
   Router.push({
     pathname: '/item',
     query: {
@@ -56,7 +56,7 @@ class AutoComplete extends React.Component {
       <SearchStyles>
         <Downshift
           onChange={routeToItem}
-          itemToString={item => (item === null ? '' : item.title)}
+          itemToString={(item) => (item === null ? '' : item.title)}
         >
           {({
             getInputProps,
@@ -67,14 +67,14 @@ class AutoComplete extends React.Component {
           }) => (
             <div>
               <ApolloConsumer>
-                {client => (
+                {(client) => (
                   <input
                     {...getInputProps({
                       type: 'search',
                       placeholder: 'Search for an item',
                       id: 'search',
                       className: this.state.loading ? 'loading' : '',
-                      onChange: e => {
+                      onChange: (e) => {
                         e.persist()
                         this.onChange(e, client)
                       },

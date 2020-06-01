@@ -8,12 +8,12 @@ const createServer = () => {
     typeDefs: 'src/schema.graphql',
     resolvers: {
       Mutation,
-      Query
+      Query,
     },
     resolverValidationOptions: {
-      requireResolversForResolveType: false
+      requireResolversForResolveType: false,
     },
-    context: req => ({ ...req, db }),
+    context: (req) => ({ ...req, db }),
   })
 }
 

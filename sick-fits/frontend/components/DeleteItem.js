@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
-import { ALL_ITEMS_QUERY } from './Items';
+import React, { Component } from 'react'
+import { Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
+import { ALL_ITEMS_QUERY } from './Items'
 
 const DELETE_ITEM_MUTATION = gql`
   mutation DELETE_ITEM_MUTATION($id: ID!) {
@@ -9,20 +9,20 @@ const DELETE_ITEM_MUTATION = gql`
       id
     }
   }
-`;
+`
 
 class DeleteItem extends Component {
   update = (cache, payload) => {
     // manually update the cache on the client, so it matches the server
     // 1. read cache for the item we want
-    const data = cache.readQuery({ query: ALL_ITEMS_QUERY });
+    const data = cache.readQuery({ query: ALL_ITEMS_QUERY })
     // 2. filter deleted item out of the page
     data.items = data.items.filter(
-      item => item.id !== payload.data.deleteItem.id
-    );
+      (item) => item.id !== payload.data.deleteItem.id
+    )
     // 3. put items back in cache
-    cache.writeQuery({ query: ALL_ITEMS_QUERY, data });
-  };
+    cache.writeQuery({ query: ALL_ITEMS_QUERY, data })
+  }
 
   render() {
     return (
@@ -35,7 +35,7 @@ class DeleteItem extends Component {
           <button
             onClick={() => {
               if (confirm('Are you sure you wanna delete this item?')) {
-                deleteItem().catch(e => alert(e.message));
+                deleteItem().catch((e) => alert(e.message))
               }
             }}
           >
@@ -43,8 +43,8 @@ class DeleteItem extends Component {
           </button>
         )}
       </Mutation>
-    );
+    )
   }
 }
 
-export default DeleteItem;
+export default DeleteItem

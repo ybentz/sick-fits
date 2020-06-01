@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import { Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
+import PropTypes from 'prop-types'
 
-import Form from './styles/Form';
-import Error from './ErrorMessage';
-import { CURRENT_USER_QUERY } from './User';
+import Form from './styles/Form'
+import Error from './ErrorMessage'
+import { CURRENT_USER_QUERY } from './User'
 
 const RESET_MUTATION = gql`
   mutation RESET_MUTATION(
@@ -24,26 +24,26 @@ const RESET_MUTATION = gql`
       name
     }
   }
-`;
+`
 
 class ResetPassword extends Component {
   static propTypes = {
     email: PropTypes.string.isRequired,
-    resetToken: PropTypes.string.isRequired
-  };
+    resetToken: PropTypes.string.isRequired,
+  }
   initialState = {
     password: '',
-    confirmPassword: ''
-  };
+    confirmPassword: '',
+  }
 
   state = {
-    ...this.initialState
-  };
+    ...this.initialState,
+  }
 
-  saveToState = event => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
+  saveToState = (event) => {
+    const { name, value } = event.target
+    this.setState({ [name]: value })
+  }
 
   render() {
     return (
@@ -53,7 +53,7 @@ class ResetPassword extends Component {
           email: this.props.email,
           resetToken: this.props.resetToken,
           password: this.state.password,
-          confirmPassword: this.state.confirmPassword
+          confirmPassword: this.state.confirmPassword,
         }}
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
@@ -61,12 +61,12 @@ class ResetPassword extends Component {
           return (
             <Form
               method="post"
-              onSubmit={async event => {
-                event.preventDefault();
-                await requestReset();
+              onSubmit={async (event) => {
+                event.preventDefault()
+                await requestReset()
                 this.setState({
-                  ...this.initialState
-                });
+                  ...this.initialState,
+                })
               }}
             >
               <fieldset disabled={loading} aria-busy={loading}>
@@ -95,11 +95,11 @@ class ResetPassword extends Component {
                 <button type="submit">Reset Password</button>
               </fieldset>
             </Form>
-          );
+          )
         }}
       </Mutation>
-    );
+    )
   }
 }
 
-export default ResetPassword;
+export default ResetPassword

@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import RemoveFromCart from './RemoveFromCart';
+import React from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+import RemoveFromCart from './RemoveFromCart'
 
-import formatMoney from '../lib/formatMoney';
+import formatMoney from '../lib/formatMoney'
 
 const CartItemStyles = styled.li`
   padding: 1rem 0;
-  border-bottom: 1px solid ${props => props.theme.lightgrey};
+  border-bottom: 1px solid ${(props) => props.theme.lightgrey};
   display: grid;
   align-items: center;
   grid-template-columns: auto 1fr auto;
@@ -18,7 +18,7 @@ const CartItemStyles = styled.li`
   p {
     margin: 0;
   }
-`;
+`
 
 function CartItem({ cartItem }) {
   if (!cartItem.item)
@@ -28,7 +28,7 @@ function CartItem({ cartItem }) {
         <div />
         <RemoveFromCart id={cartItem.id} />
       </CartItemStyles>
-    );
+    )
   return (
     <CartItemStyles>
       <img src={cartItem.item.image} alt="Cart Item Image" width="100" />
@@ -44,11 +44,11 @@ function CartItem({ cartItem }) {
       </div>
       <RemoveFromCart id={cartItem.id} />
     </CartItemStyles>
-  );
-};
+  )
+}
 
 CartItem.propTypes = {
-  cartItem: PropTypes.object.isRequired
-};
+  cartItem: PropTypes.object.isRequired,
+}
 
-export default CartItem;
+export default CartItem

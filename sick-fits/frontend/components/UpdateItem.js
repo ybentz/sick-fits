@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { Query, Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
-import Form from './styles/Form';
-import Error from './ErrorMessage';
+import React, { Component } from 'react'
+import { Query, Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
+import Form from './styles/Form'
+import Error from './ErrorMessage'
 
 const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {
@@ -13,7 +13,7 @@ const SINGLE_ITEM_QUERY = gql`
       price
     }
   }
-`;
+`
 const UPDATE_ITEM_MUTATION = gql`
   mutation UPDATE_ITEM_MUTATION(
     $id: ID!
@@ -33,37 +33,37 @@ const UPDATE_ITEM_MUTATION = gql`
       price
     }
   }
-`;
+`
 
 class UpdateItem extends Component {
-  state = {};
+  state = {}
 
-  onChange = e => {
-    const { name, type, value } = e.target;
-    const val = type === 'number' ? parseFloat(value) : value;
-    this.setState({ [name]: val });
-  };
+  onChange = (e) => {
+    const { name, type, value } = e.target
+    const val = type === 'number' ? parseFloat(value) : value
+    this.setState({ [name]: val })
+  }
 
   updateItem = async (e, updateItemMutation) => {
-    e.preventDefault();
+    e.preventDefault()
     const res = await updateItemMutation({
       variables: {
         id: this.props.id,
-        ...this.state
-      }
-    });
-  };
+        ...this.state,
+      },
+    })
+  }
 
   render() {
     return (
       <Query query={SINGLE_ITEM_QUERY} variables={{ id: this.props.id }}>
         {({ data, loading }) => {
-          if (loading) return <p>Loading...</p>;
-          if (!data.item) return <p>No data found for ID {this.props.id}</p>;
+          if (loading) return <p>Loading...</p>
+          if (!data.item) return <p>No data found for ID {this.props.id}</p>
           return (
             <Mutation mutation={UPDATE_ITEM_MUTATION} variables={this.state}>
               {(updateItem, { loading, error }) => (
-                <Form onSubmit={e => this.updateItem(e, updateItem)}>
+                <Form onSubmit={(e) => this.updateItem(e, updateItem)}>
                   <Error error={error} />
                   <fieldset disabled={loading} aria-busy={loading}>
                     <label htmlFor="title">
@@ -106,12 +106,12 @@ class UpdateItem extends Component {
                 </Form>
               )}
             </Mutation>
-          );
+          )
         }}
       </Query>
-    );
+    )
   }
 }
 
-export default UpdateItem;
-export { UPDATE_ITEM_MUTATION };
+export default UpdateItem
+export { UPDATE_ITEM_MUTATION }

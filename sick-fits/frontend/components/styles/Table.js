@@ -1,16 +1,16 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const Table = styled.table`
   border-spacing: 0;
   width: 100%;
-  border: 1px solid ${props => props.theme.offWhite};
+  border: 1px solid ${(props) => props.theme.offWhite};
   thead {
     font-size: 10px;
   }
   td,
   th {
-    border-bottom: 1px solid ${props => props.theme.offWhite};
-    border-right: 1px solid ${props => props.theme.offWhite};
+    border-bottom: 1px solid ${(props) => props.theme.offWhite};
+    border-right: 1px solid ${(props) => props.theme.offWhite};
     position: relative;
     padding: 10px 5px;
     &:last-child {
@@ -23,7 +23,7 @@ const Table = styled.table`
   }
   tr {
     &:hover {
-      background: ${props => props.theme.offWhite};
+      background: ${(props) => props.theme.offWhite};
     }
   }
   label {
@@ -32,6 +32,6 @@ const Table = styled.table`
     align-items: center;
     padding: 10px 5px;
   }
-`;
+`
 
-export default Table;
+export default Table

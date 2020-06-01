@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Link from 'next/link';
-import DeleteItem from './DeleteItem';
-import AddToCart from './AddToCart';
-import Title from './styles/Title';
-import ItemStyles from './styles/ItemStyles';
-import PriceTag from './styles/PriceTag';
-import formatMoney from '../lib/formatMoney';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Link from 'next/link'
+import DeleteItem from './DeleteItem'
+import AddToCart from './AddToCart'
+import Title from './styles/Title'
+import ItemStyles from './styles/ItemStyles'
+import PriceTag from './styles/PriceTag'
+import formatMoney from '../lib/formatMoney'
 
 function Item(props) {
   const { item } = props
@@ -18,7 +18,7 @@ function Item(props) {
         <Link
           href={{
             pathname: '/item',
-            query: { id: item.id }
+            query: { id: item.id },
           }}
         >
           <a>{item.title}</a>
@@ -30,7 +30,7 @@ function Item(props) {
         <Link
           href={{
             pathname: '/update',
-            query: { id: item.id }
+            query: { id: item.id },
           }}
         >
           <a>Edit ✏️</a>
@@ -39,11 +39,11 @@ function Item(props) {
         <DeleteItem id={item.id}>Delete Item</DeleteItem>
       </div>
     </ItemStyles>
-  );
+  )
 }
 
 Item.propTypes = {
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
 }
 
 export default Item

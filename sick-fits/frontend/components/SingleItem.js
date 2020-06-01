@@ -9,7 +9,7 @@ const SingleItemStyles = styled.div`
   max-width: 1200px;
   min-height: 800px;
   margin: 2rem auto;
-  box-shadow: ${props => props.theme.bs};
+  box-shadow: ${(props) => props.theme.bs};
   display: grid;
   grid-auto-columns: 1fr;
   grid-auto-flow: column;
@@ -37,7 +37,7 @@ const SINGLE_ITEM_QUERY = gql`
 
 function SingleItem(props) {
   const { error, loading, data } = useQuery(SINGLE_ITEM_QUERY, {
-    variables: { id: props.id }
+    variables: { id: props.id },
   })
 
   if (error) return <Error error={error} />

@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
+import React, { Component } from 'react'
+import { Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
 
-import Form from './styles/Form';
-import Error from './ErrorMessage';
-import { CURRENT_USER_QUERY } from './User';
+import Form from './styles/Form'
+import Error from './ErrorMessage'
+import { CURRENT_USER_QUERY } from './User'
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION(
@@ -18,23 +18,23 @@ const SIGNUP_MUTATION = gql`
       name
     }
   }
-`;
+`
 
 class Signup extends Component {
   initialState = {
     email: '',
     name: '',
-    password: ''
-  };
+    password: '',
+  }
 
   state = {
-    ...this.initialState
-  };
+    ...this.initialState,
+  }
 
-  saveToState = event => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
+  saveToState = (event) => {
+    const { name, value } = event.target
+    this.setState({ [name]: value })
+  }
 
   render() {
     return (
@@ -47,12 +47,12 @@ class Signup extends Component {
           return (
             <Form
               method="post"
-              onSubmit={async event => {
-                event.preventDefault();
-                await signup();
+              onSubmit={async (event) => {
+                event.preventDefault()
+                await signup()
                 this.setState({
-                  ...this.initialState
-                });
+                  ...this.initialState,
+                })
               }}
             >
               <fieldset disabled={loading} aria-busy={loading}>
@@ -91,11 +91,11 @@ class Signup extends Component {
                 <button type="submit">Sign up</button>
               </fieldset>
             </Form>
-          );
+          )
         }}
       </Mutation>
-    );
+    )
   }
 }
 
-export default Signup;
+export default Signup

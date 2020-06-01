@@ -1,8 +1,8 @@
-import React from 'react';
-import { useMutation } from 'react-apollo';
-import gql from 'graphql-tag';
+import React from 'react'
+import { useMutation } from 'react-apollo'
+import gql from 'graphql-tag'
 
-import { CURRENT_USER_QUERY } from './User';
+import { CURRENT_USER_QUERY } from './User'
 
 const ADD_TO_CART_MUTATION = gql`
   mutation ADD_TO_CART_MUTATION($id: ID!) {
@@ -11,11 +11,11 @@ const ADD_TO_CART_MUTATION = gql`
       quantity
     }
   }
-`;
+`
 
-function AddToCart( props ) {
-  const { id } = props;
-  const [ addToCart, { loading } ] = useMutation(ADD_TO_CART_MUTATION, {
+function AddToCart(props) {
+  const { id } = props
+  const [addToCart, { loading }] = useMutation(ADD_TO_CART_MUTATION, {
     variables: { id },
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
   })
@@ -23,7 +23,7 @@ function AddToCart( props ) {
     <button onClick={addToCart} disabled={loading}>
       Add{loading && 'ing'} to Cart 🛒
     </button>
-  );
+  )
 }
 
-export default AddToCart;
+export default AddToCart

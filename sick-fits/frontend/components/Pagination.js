@@ -1,11 +1,11 @@
-import React from 'react';
-import gql from 'graphql-tag';
-import { useQuery } from 'react-apollo';
-import Head from 'next/head';
-import Link from 'next/link';
+import React from 'react'
+import gql from 'graphql-tag'
+import { useQuery } from 'react-apollo'
+import Head from 'next/head'
+import Link from 'next/link'
 
-import PaginationStyles from './styles/PaginationStyles';
-import { perPage } from '../config';
+import PaginationStyles from './styles/PaginationStyles'
+import { perPage } from '../config'
 
 const PAGINATION_QUERY = gql`
   query PAGINATION_QUERY {
@@ -15,17 +15,17 @@ const PAGINATION_QUERY = gql`
       }
     }
   }
-`;
+`
 
 function Pagination({ page }) {
   const { data, error, loading } = useQuery(PAGINATION_QUERY)
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error: {error.message}</p>
 
-  const currentPage = page;
-  const count = data.itemsConnection.aggregate.count;
-  const pages = Math.ceil(count / perPage);
+  const currentPage = page
+  const count = data.itemsConnection.aggregate.count
+  const pages = Math.ceil(count / perPage)
   return (
     <PaginationStyles>
       <Head>
@@ -34,7 +34,7 @@ function Pagination({ page }) {
       <Link
         href={{
           pathname: 'items',
-          query: { page: currentPage - 1 }
+          query: { page: currentPage - 1 },
         }}
       >
         <a className="prev" aria-disabled={currentPage <= 1}>
@@ -48,7 +48,7 @@ function Pagination({ page }) {
       <Link
         href={{
           pathname: 'items',
-          query: { page: currentPage + 1 }
+          query: { page: currentPage + 1 },
         }}
       >
         <a className="next" aria-disabled={currentPage >= pages}>
@@ -56,7 +56,7 @@ function Pagination({ page }) {
         </a>
       </Link>
     </PaginationStyles>
-  );
-};
+  )
+}
 
-export default Pagination;
+export default Pagination

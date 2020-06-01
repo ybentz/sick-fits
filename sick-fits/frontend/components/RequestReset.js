@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
+import React, { Component } from 'react'
+import { Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
 
-import Form from './styles/Form';
-import Error from './ErrorMessage';
+import Form from './styles/Form'
+import Error from './ErrorMessage'
 
 const REQUEST_RESET_MUTATION = gql`
   mutation REQUEST_RESET_MUTATION($email: String!) {
@@ -11,21 +11,21 @@ const REQUEST_RESET_MUTATION = gql`
       message
     }
   }
-`;
+`
 
 class RequestReset extends Component {
   initialState = {
-    email: ''
-  };
+    email: '',
+  }
 
   state = {
-    ...this.initialState
-  };
+    ...this.initialState,
+  }
 
-  saveToState = event => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
+  saveToState = (event) => {
+    const { name, value } = event.target
+    this.setState({ [name]: value })
+  }
 
   render() {
     return (
@@ -34,12 +34,12 @@ class RequestReset extends Component {
           return (
             <Form
               method="post"
-              onSubmit={async event => {
-                event.preventDefault();
-                await requestReset();
+              onSubmit={async (event) => {
+                event.preventDefault()
+                await requestReset()
                 this.setState({
-                  ...this.initialState
-                });
+                  ...this.initialState,
+                })
               }}
             >
               <fieldset disabled={loading} aria-busy={loading}>
@@ -61,11 +61,11 @@ class RequestReset extends Component {
                 <button type="submit">Reset Password</button>
               </fieldset>
             </Form>
-          );
+          )
         }}
       </Mutation>
-    );
+    )
   }
 }
 
-export default RequestReset;
+export default RequestReset

@@ -1,8 +1,8 @@
 import React from 'react'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 
-import Header from './Header';
-import Meta from './Meta';
+import Header from './Header'
+import Meta from './Meta'
 
 const theme = {
   red: '#FF0000',
@@ -14,7 +14,7 @@ const theme = {
   bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
   sizes: {
     desktopWidth: '1300px',
-  }
+  },
 }
 
 const GlobalStyles = createGlobalStyle`
@@ -49,11 +49,11 @@ const GlobalStyles = createGlobalStyle`
 
 const StyledPage = styled.div`
   background-color: white;
-  color: ${props => props.theme.black};
+  color: ${(props) => props.theme.black};
 `
 
 const PageContent = styled.div`
-  max-width: ${props => props.theme.maxWidth};
+  max-width: ${(props) => props.theme.maxWidth};
   margin: 0 auto;
   padding: 2rem;
 `
@@ -65,9 +65,7 @@ function Page(props) {
       <StyledPage>
         <Meta />
         <Header />
-        <PageContent>
-          { props.children }
-        </PageContent>
+        <PageContent>{props.children}</PageContent>
       </StyledPage>
     </ThemeProvider>
   )

@@ -1,5 +1,5 @@
-import PleaseSignIn from '../components/PleaseSignIn';
-import Permissions from '../components/Permissions';
+import PleaseSignIn from '../components/PleaseSignIn'
+import Permissions from '../components/Permissions'
 
 function PermissionsPage(props) {
   return (
@@ -11,4 +11,4 @@ function PermissionsPage(props) {
   )
 }
 
-export default PermissionsPage;
+export default PermissionsPage
