@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
-function useForm(initial = {}) {
+function useForm(initial: FormInputState = {}) {
   const [inputs, setInputs] = useState(initial)
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, type, value } = event.target
     const val = type === 'number' ? parseFloat(value) : value
     setInputs({
@@ -12,9 +12,15 @@ function useForm(initial = {}) {
     })
   }
 
+  const resetForm = () => {
+    setInputs(initial)
+  }
+
   return {
     inputs,
     handleChange,
+    resetForm,
+    setInputsUnsafe: setInputs,
   }
 }
 
