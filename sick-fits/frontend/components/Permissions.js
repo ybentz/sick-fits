@@ -1,5 +1,5 @@
-import React from 'react'
-import { useQuery, Mutation } from 'react-apollo'
+import React, { useState } from 'react'
+import { useQuery, useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 
@@ -73,21 +73,21 @@ function Permissions(props) {
   )
 }
 
-class UserPermissions extends React.Component {
-  static propTypes = {
-    user: PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      email: PropTypes.string,
-      permissions: PropTypes.array,
-    }).isRequired,
-  }
-  state = {
-    permissions: this.props.user.permissions,
-  }
-  handlePermissionChange = (event) => {
+function UserPermissions({ user }) {
+  const [permissions, setPermissions] = useState(user.permissions)
+  const [updatePermissions, { loading, error }] = useMutation(
+    UPDATE_PERMISSIONS_MUTATION,
+    {
+      variables: {
+        permissions,
+        userId: user.id,
+      },
+    }
+  )
+
+  function handlePermissionChange(event) {
     const checkbox = event.target
-    let updatedPermissions = [...this.state.permissions]
+    let updatedPermissions = [...permissions]
     if (checkbox.checked) {
       updatedPermissions.push(checkbox.value)
     } else {
@@ -95,58 +95,55 @@ class UserPermissions extends React.Component {
         (permission) => permission !== checkbox.value
       )
     }
-    this.setState({ permissions: updatedPermissions })
+    setPermissions(updatedPermissions)
   }
-  render() {
-    const { user } = this.props
-    return (
-      <Mutation
-        mutation={UPDATE_PERMISSIONS_MUTATION}
-        variables={{
-          permissions: this.state.permissions,
-          userId: user.id,
-        }}
-      >
-        {(updatePermissions, { loading, error }) => (
-          <>
-            {error && (
-              <tr>
-                <td colSpan="8">
-                  <Error error={error} />
-                </td>
-              </tr>
-            )}
-            <tr>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              {validPermissions.map((permission) => (
-                <td key={permission}>
-                  <label htmlFor={`${user.id}-permission-${permission}`}>
-                    <input
-                      id={`${user.id}-permission-${permission}`}
-                      type="checkbox"
-                      checked={this.state.permissions.includes(permission)}
-                      value={permission}
-                      onChange={this.handlePermissionChange}
-                    />
-                  </label>
-                </td>
-              ))}
-              <td>
-                <SickButton
-                  type="button"
-                  disabled={loading}
-                  onClick={updatePermissions}
-                >
-                  Updat{loading ? 'ing' : 'e'}
-                </SickButton>
-              </td>
-            </tr>
-          </>
-        )}
-      </Mutation>
-    )
-  }
+
+  return (
+    <>
+      {error && (
+        <tr>
+          <td colSpan="8">
+            <Error error={error} />
+          </td>
+        </tr>
+      )}
+      <tr>
+        <td>{user.name}</td>
+        <td>{user.email}</td>
+        {validPermissions.map((permission) => (
+          <td key={permission}>
+            <label htmlFor={`${user.id}-permission-${permission}`}>
+              <input
+                id={`${user.id}-permission-${permission}`}
+                type="checkbox"
+                checked={permissions.includes(permission)}
+                value={permission}
+                onChange={handlePermissionChange}
+              />
+            </label>
+          </td>
+        ))}
+        <td>
+          <SickButton
+            type="button"
+            disabled={loading}
+            onClick={updatePermissions}
+          >
+            Updat{loading ? 'ing' : 'e'}
+          </SickButton>
+        </td>
+      </tr>
+    </>
+  )
+}
+
+UserPermissions.propTypes = {
+  user: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    permissions: PropTypes.array,
+  }).isRequired,
 }
 
 export default Permissions
