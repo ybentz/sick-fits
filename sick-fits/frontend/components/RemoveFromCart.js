@@ -1,5 +1,5 @@
 import React from 'react'
-import { Mutation } from 'react-apollo'
+import { useMutation } from 'react-apollo'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
@@ -23,16 +23,27 @@ const BigButton = styled.button`
   }
 `
 
-class RemoveFromCart extends React.Component {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-  }
-
+function RemoveFromCart({ id }) {
+  const [removeFromCart, { loading, error }] = useMutation(
+    REMOVE_FROM_CART_MUTATION,
+    {
+      variables: { id },
+      update,
+      optimisticResponse: {
+        __typename: 'Mutation',
+        // the mocked response
+        removeFromCart: {
+          __typename: 'CartItem',
+          id,
+        },
+      },
+    }
+  )
   // this gets called when the mutation's response returns
   // * Note: this gets the job done BUT there's a delay between the click and the item disappearing since
   // * we need to wait for the response, that's why we're using the `optimisticResponse` which allows us to
   // * temporarily mock the response. lecture 43, 4:30
-  update = (cache, payload) => {
+  function update(cache, payload) {
     // 1. read cache
     const data = cache.readQuery({ query: CURRENT_USER_QUERY })
     // 2. remove item from cart
@@ -42,35 +53,21 @@ class RemoveFromCart extends React.Component {
     cache.writeQuery({ query: CURRENT_USER_QUERY, data })
   }
 
-  render() {
-    return (
-      <Mutation
-        mutation={REMOVE_FROM_CART_MUTATION}
-        variables={{ id: this.props.id }}
-        update={this.update}
-        optimisticResponse={{
-          __typename: 'Mutation',
-          // the mocked response
-          removeFromCart: {
-            __typename: 'CartItem',
-            id: this.props.id,
-          },
-        }}
-      >
-        {(removeFromCart, { loading, error }) => (
-          <BigButton
-            onClick={() => {
-              removeFromCart().catch((err) => alert(err.message))
-            }}
-            disabled={loading}
-            title="Delete Item"
-          >
-            &times;
-          </BigButton>
-        )}
-      </Mutation>
-    )
-  }
+  return (
+    <BigButton
+      onClick={() => {
+        removeFromCart().catch((err) => alert(err.message))
+      }}
+      disabled={loading}
+      title="Delete Item"
+    >
+      &times;
+    </BigButton>
+  )
+}
+
+RemoveFromCart.propTypes = {
+  id: PropTypes.string.isRequired,
 }
 
 export default RemoveFromCart
