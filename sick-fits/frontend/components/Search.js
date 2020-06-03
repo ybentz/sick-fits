@@ -1,8 +1,8 @@
 import React from 'react'
-import Downshift, { resetIdCounter } from 'downshift'
-import Router from 'next/router'
+import { useCombobox, resetIdCounter } from 'downshift'
+import { useRouter } from 'next/router'
 import gql from 'graphql-tag'
-import { ApolloConsumer } from 'react-apollo'
+import { useLazyQuery } from 'react-apollo'
 import debounce from 'lodash.debounce'
 
 import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown'
@@ -24,87 +24,72 @@ const SEARCH_ITEMS_QUERY = gql`
   }
 `
 
-const routeToItem = (item) => {
-  Router.push({
+function routeToItem(selectedItem, router) {
+  router.push({
     pathname: '/item',
     query: {
-      id: item.id,
+      id: selectedItem.id,
     },
   })
 }
 
-class AutoComplete extends React.Component {
-  state = {
-    loading: false,
-    items: [],
-  }
-  onChange = debounce(async (e, client) => {
-    this.setState({ loading: true })
-    const res = await client.query({
-      query: SEARCH_ITEMS_QUERY,
-      variables: { searchTerm: e.target.value },
-    })
-    this.setState({
-      items: res.data.items,
-      loading: false,
-    })
-  }, 350)
-  render() {
-    // reset the id counter manually to prevent server and client render id mismatch by Downshit (Lecture 48 - ~12:00)
-    resetIdCounter()
-    return (
-      <SearchStyles>
-        <Downshift
-          onChange={routeToItem}
-          itemToString={(item) => (item === null ? '' : item.title)}
-        >
-          {({
-            getInputProps,
-            getItemProps,
-            isOpen,
-            inputValue,
-            highlightedIndex,
-          }) => (
-            <div>
-              <ApolloConsumer>
-                {(client) => (
-                  <input
-                    {...getInputProps({
-                      type: 'search',
-                      placeholder: 'Search for an item',
-                      id: 'search',
-                      className: this.state.loading ? 'loading' : '',
-                      onChange: (e) => {
-                        e.persist()
-                        this.onChange(e, client)
-                      },
-                    })}
-                  />
-                )}
-              </ApolloConsumer>
-              {isOpen && (
-                <DropDown>
-                  {this.state.items.map((item, index) => (
-                    <DropDownItem
-                      {...getItemProps({ item })}
-                      key={item.id}
-                      highlighted={index === highlightedIndex}
-                    >
-                      <img width="50" src={item.image} alt={item.title} />
-                      {item.title}
-                    </DropDownItem>
-                  ))}
-                  {!this.state.items.length && !this.state.loading && (
-                    <DropDownItem>Nothing found for {inputValue}</DropDownItem>
-                  )}
-                </DropDown>
-              )}
-            </div>
+function AutoComplete(props) {
+  const router = useRouter()
+  const [findItems, { data, loading }] = useLazyQuery(SEARCH_ITEMS_QUERY)
+  const items = data ? data.items : []
+  const debouncedFindItemsQuery = debounce(findItems, 350)
+  const {
+    getComboboxProps,
+    getInputProps,
+    getItemProps,
+    getMenuProps,
+    highlightedIndex,
+    inputValue,
+    isOpen,
+  } = useCombobox({
+    items,
+    itemToString: (item) => (item ? item.title : ''),
+    onInputValueChange: ({ inputValue }) => {
+      debouncedFindItemsQuery({
+        variables: { searchTerm: inputValue },
+      })
+    },
+    onSelectedItemChange: ({ selectedItem }) =>
+      routeToItem(selectedItem, router),
+  })
+  // reset the id counter manually to prevent server and client render id mismatch by Downshit (Lecture 48 - ~12:00)
+  resetIdCounter()
+
+  return (
+    <SearchStyles>
+      <div {...getComboboxProps()}>
+        <input
+          {...getInputProps({
+            type: 'search',
+            placeholder: 'Search for an item',
+            id: 'search',
+            className: loading ? 'loading' : '',
+          })}
+        />
+        <DropDown {...getMenuProps()}>
+          {isOpen &&
+            items.map((item, index) => (
+              <DropDownItem
+                {...getItemProps({ item, index })}
+                key={item.id}
+                highlighted={index === highlightedIndex}
+              >
+                <img width="50" src={item.image} alt={item.title} />
+                {item.title}
+              </DropDownItem>
+            ))}
+          {isOpen && !items.length && !loading && (
+            <DropDownItem>Nothing found for {inputValue}</DropDownItem>
           )}
-        </Downshift>
-      </SearchStyles>
-    )
-  }
+        </DropDown>
+      </div>
+    </SearchStyles>
+  )
 }
 
 export default AutoComplete
