@@ -2,7 +2,7 @@ import React from 'react'
 import { useCombobox, resetIdCounter } from 'downshift'
 import { useRouter } from 'next/router'
 import gql from 'graphql-tag'
-import { useLazyQuery } from 'react-apollo'
+import { useLazyQuery } from '@apollo/react-hooks'
 import debounce from 'lodash.debounce'
 
 import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown'

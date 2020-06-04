@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { useMutation } from 'react-apollo'
+import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 import Form from './styles/Form'

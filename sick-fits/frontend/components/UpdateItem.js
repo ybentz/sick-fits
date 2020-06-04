@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMutation, useQuery } from 'react-apollo'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 import useForm from '../lib/useForm'

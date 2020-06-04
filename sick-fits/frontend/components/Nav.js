@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useMutation } from 'react-apollo'
+import { useMutation } from '@apollo/react-hooks'
 import NavStyles from './styles/NavStyles'
 import { useUser } from './User'
 import Signout from './Signout'

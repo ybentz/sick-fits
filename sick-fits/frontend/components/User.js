@@ -1,5 +1,5 @@
 // This is a render prop component that fetches the current user data
-import { useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 const CURRENT_USER_QUERY = gql`

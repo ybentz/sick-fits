@@ -1,6 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/react-hooks'
 import Head from 'next/head'
 import Link from 'next/link'
 

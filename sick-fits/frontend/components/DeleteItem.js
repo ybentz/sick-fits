@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMutation } from 'react-apollo'
+import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { ALL_ITEMS_QUERY } from './Items'
 

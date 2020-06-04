@@ -1,6 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/react-hooks'
 import styled from 'styled-components'
 import Head from 'next/head'
 import Error from './ErrorMessage'
