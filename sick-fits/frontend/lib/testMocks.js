@@ -29,4 +29,43 @@ const signedInMocksWithCartItems = [
   },
 ]
 
-export { notSignedInMocks, signedInMocks, signedInMocksWithCartItems }
+class UserMockBuilder {
+  constructor() {
+    this.cart = []
+    this.user = null
+  }
+  setSignedIn() {
+    this.user = fakeUser()
+    return this
+  }
+  setSignedOut() {
+    this.user = null
+    return this
+  }
+  withCartItems(count = 1, quantity = 1) {
+    this.cart = Array(count).fill(fakeCartItem({ quantity }))
+    return this
+  }
+  build() {
+    return {
+      request: { query: CURRENT_USER_QUERY },
+      result: {
+        data: {
+          me: !this.user
+            ? null
+            : {
+                ...this.user,
+                cart: this.cart,
+              },
+        },
+      },
+    }
+  }
+}
+
+export {
+  notSignedInMocks,
+  signedInMocks,
+  signedInMocksWithCartItems,
+  UserMockBuilder,
+}

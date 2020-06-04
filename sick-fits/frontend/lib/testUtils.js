@@ -1,4 +1,6 @@
 import casual from 'casual'
+import { act } from 'react-dom/test-utils'
+import wait from 'waait'
 
 // seed it so we get consistent results
 casual.seed(777)
@@ -76,6 +78,18 @@ class LocalStorageMock {
   }
 }
 
+// Used as a silly workaround to for the `act` warning when re-rendering after a state change
+// due to how Apollo MockedProvider works (useQuery needs a tick to resolve the promise)
+// More details here: https://trojanowski.dev/apollo-hooks-testing-without-act-warnings/
+async function waitForApolloStateChange(ms = 0) {
+  await act(() => {
+    return wait(ms)
+    // return new Promise((resolve) => {
+    //   setTimeout(resolve, ms)
+    // })
+  })
+}
+
 export {
   LocalStorageMock,
   fakeItem,
@@ -83,4 +97,5 @@ export {
   fakeCartItem,
   fakeOrder,
   fakeOrderItem,
+  waitForApolloStateChange,
 }

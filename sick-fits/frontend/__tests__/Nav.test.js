@@ -1,51 +1,73 @@
-import { mount } from 'enzyme'
-import toJSON from 'enzyme-to-json'
-import wait from 'waait'
-import { MockedProvider } from 'react-apollo/test-utils'
+import { MockedProvider } from '@apollo/react-testing'
+import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
+import React from 'react'
+
 import Nav from '../components/Nav'
-import {
-  notSignedInMocks,
-  signedInMocks,
-  signedInMocksWithCartItems,
-} from '../lib/testMocks'
+import { UserMockBuilder } from '../lib/testMocks'
+import { waitForApolloStateChange } from '../lib/testUtils'
 
 describe('<Nav/>', () => {
   it('renders minimal nav when sign out', async () => {
-    const wrapper = mount(
-      <MockedProvider mocks={notSignedInMocks}>
+    const mockedUser = new UserMockBuilder().setSignedOut().build()
+    const { asFragment } = render(
+      <MockedProvider mocks={[mockedUser]} addTypename={false}>
         <Nav />
       </MockedProvider>
     )
-    await wait()
-    wrapper.update()
-    const nav = wrapper.find('ul[data-test="nav"]')
-    expect(toJSON(nav)).toMatchSnapshot()
+    await waitForApolloStateChange()
+    // await waitFor(() => {})
+    expect(screen.getByRole('link', { name: /signin/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /shop/i })).toBeInTheDocument()
+
+    expect(screen.queryByRole('link', { name: /sell/i })).toBeNull()
+    expect(screen.queryByRole('link', { name: /orders/i })).toBeNull()
+    expect(screen.queryByRole('link', { name: /account/i })).toBeNull()
+    expect(screen.queryByRole('button', { name: /sign out/i })).toBeNull()
+    expect(screen.queryByRole('button', { name: /my cart/i })).toBeNull()
+    // expect(asFragment()).toMatchSnapshot()
   })
 
   it('renders full nav when signed in', async () => {
-    const wrapper = mount(
-      <MockedProvider mocks={signedInMocks}>
+    const mockedUser = new UserMockBuilder().setSignedIn().build()
+    const { asFragment } = render(
+      <MockedProvider mocks={[mockedUser]} addTypename={false}>
         <Nav />
       </MockedProvider>
     )
-    await wait()
-    wrapper.update()
-    const nav = wrapper.find('ul[data-test="nav"]')
-    expect(nav.children().length).toBe(6)
-    expect(nav.text()).toContain('Sign Out')
-    expect(toJSON(nav)).toMatchSnapshot()
+    await waitForApolloStateChange()
+    // await waitFor(() => {})
+    expect(screen.getByRole('link', { name: /shop/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /sell/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /orders/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /account/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /sign out/i })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /my cart/i })).toBeInTheDocument()
+
+    expect(screen.queryByRole('link', { name: /signin/i })).toBeNull()
+    // expect(asFragment()).toMatchSnapshot()
   })
 
   it('renders the amount of items in the cart', async () => {
-    const wrapper = mount(
-      <MockedProvider mocks={signedInMocksWithCartItems}>
+    const cartItemsCount = 4
+    const mockedUser = new UserMockBuilder()
+      .setSignedIn()
+      .withCartItems(cartItemsCount)
+      .build()
+
+    const { asFragment } = render(
+      <MockedProvider mocks={[mockedUser]} addTypename={false}>
         <Nav />
       </MockedProvider>
     )
-    await wait()
-    wrapper.update()
-    const nav = wrapper.find('ul[data-test="nav"]')
-    const count = nav.find('div.count')
-    expect(toJSON(count)).toMatchSnapshot()
+    await waitForApolloStateChange()
+    // await waitFor(() => {})
+    const cartButton = await screen.findByRole('button', {
+      name: /my cart/i,
+    })
+    expect(cartButton).toHaveTextContent(cartItemsCount)
+    // expect(asFragment()).toMatchSnapshot()
   })
 })
