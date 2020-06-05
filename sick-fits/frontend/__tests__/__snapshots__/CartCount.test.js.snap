@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CartCount/> updates via props 1`] = `
+<DocumentFragment>
+  <span
+    class="CartCount__AnimationStyles-xxvp4g-0 jGgtAN"
+  >
+    <div>
+      <div
+        class="CartCount__Dot-xxvp4g-1 kCeHkh count"
+      >
+        50
+      </div>
+    </div>
+  </span>
+</DocumentFragment>
+`;
+
+exports[`<CartCount/> updates via props 2`] = `
+<DocumentFragment>
+  <span
+    class="CartCount__AnimationStyles-xxvp4g-0 jGgtAN"
+  >
+    <div>
+      <div
+        class="CartCount__Dot-xxvp4g-1 kCeHkh count count-enter-done"
+      >
+        10
+      </div>
+    </div>
+  </span>
+</DocumentFragment>
+`;

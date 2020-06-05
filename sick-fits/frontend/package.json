@@ -38,15 +38,15 @@
     "react-apollo": "^3.1.5",
     "react-dom": "^16.5.2",
     "react-stripe-checkout": "^2.6.3",
-    "react-transition-group": "^2.5.0",
+    "react-transition-group": "^4.4.1",
     "styled-components": "^5.1.1",
     "waait": "^1.0.5"
   },
   "devDependencies": {
     "@apollo/react-testing": "^3.1.4",
     "@testing-library/jest-dom": "^5.9.0",
-    "@testing-library/react": "^10.0.6",
-    "@testing-library/user-event": "^11.0.0",
+    "@testing-library/react": "^10.2.0",
+    "@testing-library/user-event": "^11.1.0",
     "@types/react": "^16.9.35",
     "babel-jest": "^26.0.1",
     "babel-plugin-module-resolver": "^4.0.0",
