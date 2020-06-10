@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 
 import Form from './styles/Form'
 import Error from './ErrorMessage'
-import useForm from '../lib/useForm'
+import useForm from '../hooks/useForm'
 
 const REQUEST_RESET_MUTATION = gql`
   mutation REQUEST_RESET_MUTATION($email: String!) {

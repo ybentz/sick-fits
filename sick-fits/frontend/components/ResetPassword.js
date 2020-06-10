@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import Form from './styles/Form'
 import Error from './ErrorMessage'
 import { CURRENT_USER_QUERY } from './User'
-import useForm from '../lib/useForm'
+import useForm from '../hooks/useForm'
 
 const RESET_MUTATION = gql`
   mutation RESET_MUTATION(

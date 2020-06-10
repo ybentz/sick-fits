@@ -6,6 +6,10 @@ import PleaseSignIn from '../components/PleaseSignIn'
 import { UserMockBuilder } from '../lib/testMocks'
 import { waitForApolloStateChange } from '../lib/testUtils'
 
+// Mocking useAutofillForm hook to avoid the `act()` warning since the hook is using useEffect
+// internally and triggers an async change
+jest.mock('../hooks/useAutofillForm')
+
 describe('<PleaseSignIn/>', () => {
   it('renders sign in dialog to logged out users', async () => {
     const mockedUser = new UserMockBuilder().setSignedOut().build()
@@ -15,9 +19,7 @@ describe('<PleaseSignIn/>', () => {
       </MockedProvider>
     )
 
-    // Wait a bit longer than the useAutofill timer to avoid the `act()` warning
-    // TODO - may want to mock the custom hook as it's not relevant to the test and shouldn't affect it
-    await waitForApolloStateChange(150)
+    await waitForApolloStateChange()
     expect(
       screen.getByText('Please sign in before continuing')
     ).toBeInTheDocument()
@@ -36,8 +38,7 @@ describe('<PleaseSignIn/>', () => {
       </MockedProvider>
     )
 
-    // Wait a bit longer than the useAutofill timer to avoid the `act()` warning
-    await waitForApolloStateChange(150)
+    await waitForApolloStateChange()
     expect(screen.getByText(childTextContent)).toBeInTheDocument()
     expect(screen.queryByText('Please sign in before continuing')).toBeNull()
   })

@@ -2,7 +2,7 @@ import React from 'react'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
-import useForm from '../lib/useForm'
+import useForm from '../hooks/useForm'
 import Form from './styles/Form'
 import Error from './ErrorMessage'
 

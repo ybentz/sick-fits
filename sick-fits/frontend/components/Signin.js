@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import Form from './styles/Form'
 import Error from './ErrorMessage'
 import { CURRENT_USER_QUERY } from './User'
-import useAutofillForm from '../lib/useAutofillForm'
+import useAutofillForm from '../hooks/useAutofillForm'
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
