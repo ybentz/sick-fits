@@ -4,14 +4,16 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 
 import Nav from '../components/Nav'
-import { UserMockBuilder } from '../lib/testMocks'
+import { CurrentUserQueryMockBuilder } from '../lib/userMocks'
 import { waitForApolloStateChange } from '../lib/testUtils'
 
 describe('<Nav/>', () => {
   it('renders minimal nav when sign out', async () => {
-    const mockedUser = new UserMockBuilder().setSignedOut().build()
+    const mockedUserQuery = new CurrentUserQueryMockBuilder()
+      .setSignedOut()
+      .build()
     const { asFragment } = render(
-      <MockedProvider mocks={[mockedUser]} addTypename={false}>
+      <MockedProvider mocks={[mockedUserQuery]} addTypename={false}>
         <Nav />
       </MockedProvider>
     )
@@ -29,9 +31,11 @@ describe('<Nav/>', () => {
   })
 
   it('renders full nav when signed in', async () => {
-    const mockedUser = new UserMockBuilder().setSignedIn().build()
+    const mockedUserQuery = new CurrentUserQueryMockBuilder()
+      .setSignedIn()
+      .build()
     const { asFragment } = render(
-      <MockedProvider mocks={[mockedUser]} addTypename={false}>
+      <MockedProvider mocks={[mockedUserQuery]} addTypename={false}>
         <Nav />
       </MockedProvider>
     )
@@ -52,7 +56,7 @@ describe('<Nav/>', () => {
 
   it('renders the amount of items in the cart', async () => {
     const cartItemsCount = 4
-    const mockedUser = new UserMockBuilder()
+    const mockedUser = new CurrentUserQueryMockBuilder()
       .setSignedIn()
       .withCartItems(cartItemsCount)
       .build()

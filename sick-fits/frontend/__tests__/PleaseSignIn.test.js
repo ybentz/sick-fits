@@ -1,9 +1,9 @@
-import '@testing-library/jest-dom'
 import { MockedProvider } from '@apollo/react-testing'
+import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 
 import PleaseSignIn from '../components/PleaseSignIn'
-import { UserMockBuilder } from '../lib/testMocks'
+import { CurrentUserQueryMockBuilder } from '../lib/userMocks'
 import { waitForApolloStateChange } from '../lib/testUtils'
 
 // Mocking useAutofillForm hook to avoid the `act()` warning since the hook is using useEffect
@@ -12,9 +12,9 @@ jest.mock('../hooks/useAutofillForm')
 
 describe('<PleaseSignIn/>', () => {
   it('renders sign in dialog to logged out users', async () => {
-    const mockedUser = new UserMockBuilder().setSignedOut().build()
+    const mockedUser = new CurrentUserQueryMockBuilder().setSignedOut().build()
     render(
-      <MockedProvider mocks={[mockedUser]}>
+      <MockedProvider mocks={[mockedUser]} addTypename={false}>
         <PleaseSignIn />
       </MockedProvider>
     )
@@ -27,11 +27,11 @@ describe('<PleaseSignIn/>', () => {
   })
 
   it('renders the child compoenent when user is signed in', async () => {
-    const mockedUser = new UserMockBuilder().setSignedIn().build()
+    const mockedUser = new CurrentUserQueryMockBuilder().setSignedIn().build()
     const childTextContent = 'Hey!'
     const Child = () => <p>{childTextContent}</p>
     render(
-      <MockedProvider mocks={[mockedUser]}>
+      <MockedProvider mocks={[mockedUser]} addTypename={false}>
         <PleaseSignIn>
           <Child />
         </PleaseSignIn>

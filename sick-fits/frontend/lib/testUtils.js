@@ -6,7 +6,6 @@ import wait from 'waait'
 casual.seed(777)
 
 const fakeItem = () => ({
-  __typename: 'Item',
   id: 'abc123',
   price: 5000,
   user: null,
@@ -17,7 +16,6 @@ const fakeItem = () => ({
 })
 
 const fakeUser = () => ({
-  __typename: 'User',
   id: '4234',
   name: casual.name,
   email: casual.email,
@@ -27,7 +25,6 @@ const fakeUser = () => ({
 })
 
 const fakeOrderItem = () => ({
-  __typename: 'OrderItem',
   id: casual.uuid,
   image: `${casual.word}.jpg`,
   title: casual.words(),
@@ -37,7 +34,6 @@ const fakeOrderItem = () => ({
 })
 
 const fakeOrder = () => ({
-  __typename: 'Order',
   id: 'ord123',
   charge: 'ch_123',
   total: 40000,
@@ -47,7 +43,6 @@ const fakeOrder = () => ({
 })
 
 const fakeCartItem = (overrides) => ({
-  __typename: 'CartItem',
   id: 'omg123',
   quantity: 3,
   item: fakeItem(),
