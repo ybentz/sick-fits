@@ -58,3 +58,4 @@ function RequestReset(props) {
 }
 
 export default RequestReset
+export { REQUEST_RESET_MUTATION }
