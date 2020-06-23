@@ -41,10 +41,10 @@ function Pagination({ page }) {
           ← Prev
         </a>
       </Link>
-      <p>
+      <p data-testid="current">
         Page {currentPage} of {pages}
       </p>
-      <p>{count} items total</p>
+      <p data-testid="total">{count} items total</p>
       <Link
         href={{
           pathname: 'items',
@@ -60,3 +60,4 @@ function Pagination({ page }) {
 }
 
 export default Pagination
+export { PAGINATION_QUERY }

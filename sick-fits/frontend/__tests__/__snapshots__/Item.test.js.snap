@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Item/> renders properly 1`] = `
+<DocumentFragment>
+  <div
+    class="ItemStyles__Item-sc-16pk14u-0 hZbgff"
+  >
+    <img
+      alt="Bla"
+      src="image.png"
+    />
+    <h3
+      class="Title-sc-16nq74k-0 cBlaqK"
+    >
+      <a
+        href="/item?id=ID1"
+      >
+        Bla
+      </a>
+    </h3>
+    <span
+      class="PriceTag-nwbk6t-0 hBhTMo"
+    >
+      $50
+    </span>
+    <p>
+      Testing is real cool
+    </p>
+    <div
+      class="buttonList"
+    >
+      <a
+        href="/update?id=ID1"
+      >
+        Edit ✏️
+      </a>
+      <button>
+        Add to Cart 🛒
+      </button>
+      <button>
+        Delete Item
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;

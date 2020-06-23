@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
-import { Mutation } from '@apollo/react-components'
+import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import Router from 'next/router'
-import Form from './styles/Form'
+import { useRouter } from 'next/router'
+import React, { useState, useEffect } from 'react'
+
+import useForm from '../hooks/useForm'
 import Error from './ErrorMessage'
+import Form from './styles/Form'
 
 const CREATE_ITEM_MUTATION = gql`
   mutation CREATE_ITEM_MUTATION(
@@ -25,111 +27,132 @@ const CREATE_ITEM_MUTATION = gql`
   }
 `
 
-class CreateItem extends Component {
-  state = {
-    title: 'Pretty Shoes',
+function CreateItem(props) {
+  // File input is currently not handled by useForm so it's missing the image, largeImage fields
+  const initialFormState = {
     description: 'Real pretty shoe description',
     price: 123,
-    image: 'shoe.jpg',
-    largeImage: 'big-shoe.jpg',
+    title: 'Pretty Shoes',
   }
+  const { inputs, handleChange } = useForm(initialFormState)
+  // Used to track the form file input for changes
+  const [imageInputFiles, setImageInputFiles] = useState([])
+  // Holds the uploaded urls of the chosen image after it was uploaded to the hosting service
+  const [uploadedImageData, setUploadedImageData] = useState({
+    image: null,
+    largeImage: null,
+  })
+  const [imageUploading, setImageUploading] = useState(false)
+  const router = useRouter()
 
-  onChange = (e) => {
-    const { name, type, value } = e.target
-    const val = type === 'number' ? parseFloat(value) : value
-    this.setState({ [name]: val })
-  }
+  const [createItem, { loading, error }] = useMutation(CREATE_ITEM_MUTATION, {
+    variables: {
+      ...inputs,
+      ...uploadedImageData,
+    },
+  })
 
-  uploadFile = async (e) => {
-    const files = e.target.files
-    const data = new FormData()
-    data.append('file', files[0])
-    data.append('upload_preset', 'sickfits')
-
-    const res = await fetch(
-      'https://api.cloudinary.com/v1_1/ybentz/image/upload',
-      {
-        method: 'POST',
-        body: data,
+  useEffect(() => {
+    async function uploadImage() {
+      if (!imageInputFiles.length) {
+        return
       }
-    )
+      setImageUploading(true)
+      const data = new FormData()
+      data.append('file', imageInputFiles[0])
+      data.append('upload_preset', 'sickfits')
 
-    const file = await res.json()
-    this.setState({
-      image: file.secure_url,
-      largeImage: file.eager[0].secure_url,
-    })
-  }
+      const res = await fetch(
+        'https://api.cloudinary.com/v1_1/ybentz/image/upload',
+        {
+          method: 'POST',
+          body: data,
+        }
+      )
 
-  render() {
-    return (
-      <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
-        {(createItem, { loading, error }) => (
-          <Form
-            onSubmit={async (e) => {
-              e.preventDefault()
-              const res = await createItem()
-              Router.push({
-                pathname: '/item',
-                query: { id: res.data.createItem.id },
-              })
+      const file = await res.json()
+      setImageUploading(false)
+      setUploadedImageData({
+        image: file.secure_url,
+        largeImage: file.eager[0].secure_url,
+      })
+    }
+    uploadImage()
+  }, [imageInputFiles])
+
+  return (
+    <Form
+      onSubmit={async (e) => {
+        e.preventDefault()
+        const res = await createItem()
+        router.push({
+          pathname: '/item',
+          query: { id: res.data.createItem.id },
+        })
+      }}
+    >
+      <Error error={error} />
+      <fieldset disabled={loading} aria-busy={loading}>
+        <label htmlFor="file">
+          Image
+          <input
+            type="file"
+            id="file"
+            name="file"
+            placeholder="Upload image"
+            required
+            disabled={imageUploading}
+            aria-busy={imageUploading}
+            onChange={(e) => {
+              setImageInputFiles(e.target.files)
             }}
-          >
-            <Error error={error} />
-            <fieldset disabled={loading} aria-busy={loading}>
-              <label htmlFor="file">
-                Image
-                <input
-                  type="file"
-                  id="file"
-                  name="file"
-                  placeholder="Upload image"
-                  required
-                  onChange={this.uploadFile}
-                />
-              </label>
-              <label htmlFor="title">
-                Title
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  placeholder="Title"
-                  required
-                  value={this.state.title}
-                  onChange={this.onChange}
-                />
-              </label>
-              <label htmlFor="description">
-                Description
-                <textarea
-                  id="description"
-                  name="description"
-                  placeholder="Enter a description"
-                  required
-                  value={this.state.description}
-                  onChange={this.onChange}
-                />
-              </label>
-              <label htmlFor="price">
-                Price
-                <input
-                  type="number"
-                  id="price"
-                  name="price"
-                  placeholder="Price"
-                  required
-                  value={this.state.price}
-                  onChange={this.onChange}
-                />
-              </label>
-              <button type="submit">Submit</button>
-            </fieldset>
-          </Form>
-        )}
-      </Mutation>
-    )
-  }
+          />
+        </label>
+        <label htmlFor="title">
+          Title
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Title"
+            required
+            defaultValue={inputs.title}
+            onChange={handleChange}
+          />
+        </label>
+        <label htmlFor="description">
+          Description
+          <textarea
+            id="description"
+            name="description"
+            placeholder="Enter a description"
+            required
+            defaultValue={inputs.description}
+            onChange={handleChange}
+          />
+        </label>
+        <label htmlFor="price">
+          Price
+          <input
+            type="number"
+            id="price"
+            name="price"
+            placeholder="Price"
+            required
+            defaultValue={inputs.price}
+            onChange={handleChange}
+          />
+        </label>
+        <button
+          type="submit"
+          disabled={imageUploading}
+          aria-busy={imageUploading}
+        >
+          Submit
+        </button>
+      </fieldset>
+    </Form>
+  )
 }
 
 export default CreateItem

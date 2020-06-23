@@ -1,32 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<SingleItem/> should render 1`] = `
-<h2>
-  Viewing 
-  dogs are best
-</h2>
-`;
-
-exports[`<SingleItem/> should render 2`] = `
-<img
-  alt="Item image"
-  src="dog.jpg"
-/>
-`;
-
-exports[`<SingleItem/> should render 3`] = `
-<p>
-  dogs
-</p>
-`;
-
 exports[`<SingleItem/> should render error 1`] = `
-<p
-  data-test="graphql-error"
->
-  <strong>
-    Shoot!
-  </strong>
-  Items not found
-</p>
+<DocumentFragment>
+  <div
+    class="ErrorMessage__ErrorStyles-sc-11u5fgj-0 epWlfT"
+  >
+    <p
+      data-testid="graphql-error"
+    >
+      <strong>
+        Shoot!
+      </strong>
+      Items not found
+    </p>
+  </div>
+</DocumentFragment>
 `;

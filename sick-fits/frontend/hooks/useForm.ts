@@ -5,7 +5,7 @@ function useForm(initial: FormInputState = {}) {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, type, value } = event.target
-    const val = type === 'number' ? parseFloat(value) : value
+    const val = type === 'number' ? (value ? parseFloat(value) : '') : value
     setInputs({
       ...inputs,
       [name]: val,

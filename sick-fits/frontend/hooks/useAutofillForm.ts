@@ -1,11 +1,6 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 import useForm from './useForm'
-
-type NamedRef = {
-  name: string
-  ref: React.MutableRefObject<HTMLInputElement | HTMLTextAreaElement>
-}
 
 // Handles forms that use Chrome's autofill (NOT autocomplete) to get the filled values
 // from the DOM

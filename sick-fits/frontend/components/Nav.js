@@ -11,7 +11,7 @@ function Nav() {
   const [toggleCart, { data }] = useMutation(TOGGLE_CART_MUTATION)
 
   return (
-    <NavStyles data-test="nav">
+    <NavStyles>
       <Link href="/items">
         <a>Shop</a>
       </Link>

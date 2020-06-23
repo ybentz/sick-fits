@@ -1,35 +1,45 @@
-import { mount } from 'enzyme'
-import wait from 'waait'
-import { MockedProvider } from 'react-apollo/test-utils'
+import { MockedProvider } from '@apollo/react-testing'
+import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
+
 import PleaseSignIn from '../components/PleaseSignIn'
-import { notSignedInMocks, signedInMocks } from '../lib/testMocks'
+import { CurrentUserQueryMockBuilder } from '../lib/userMocks'
+import { waitForApolloStateChange } from '../lib/testUtils'
+
+// Mocking useAutofillForm hook to avoid the `act()` warning since the hook is using useEffect
+// internally and triggers an async change
+jest.mock('../hooks/useAutofillForm')
 
 describe('<PleaseSignIn/>', () => {
   it('renders sign in dialog to logged out users', async () => {
-    const wrapper = mount(
-      <MockedProvider mocks={notSignedInMocks}>
+    const mockedUser = new CurrentUserQueryMockBuilder().setSignedOut().build()
+    render(
+      <MockedProvider mocks={[mockedUser]} addTypename={false}>
         <PleaseSignIn />
       </MockedProvider>
     )
 
-    await wait()
-    wrapper.update()
-    expect(wrapper.text()).toContain('Please sign in before continuing')
-    const Signin = wrapper.find('Signin')
-    expect(Signin.exists()).toBe(true)
+    await waitForApolloStateChange()
+    expect(
+      screen.getByText('Please sign in before continuing')
+    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument()
   })
 
   it('renders the child compoenent when user is signed in', async () => {
-    const Child = () => <p>Hey!</p>
-    const wrapper = mount(
-      <MockedProvider mocks={signedInMocks}>
+    const mockedUser = new CurrentUserQueryMockBuilder().setSignedIn().build()
+    const childTextContent = 'Hey!'
+    const Child = () => <p>{childTextContent}</p>
+    render(
+      <MockedProvider mocks={[mockedUser]} addTypename={false}>
         <PleaseSignIn>
           <Child />
         </PleaseSignIn>
       </MockedProvider>
     )
-    await wait()
-    wrapper.update()
-    expect(wrapper.contains(<Child />)).toBe(true)
+
+    await waitForApolloStateChange()
+    expect(screen.getByText(childTextContent)).toBeInTheDocument()
+    expect(screen.queryByText('Please sign in before continuing')).toBeNull()
   })
 })
