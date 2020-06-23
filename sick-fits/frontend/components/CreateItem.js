@@ -42,6 +42,7 @@ function CreateItem(props) {
     image: null,
     largeImage: null,
   })
+  const [imageUploading, setImageUploading] = useState(false)
   const router = useRouter()
 
   const [createItem, { loading, error }] = useMutation(CREATE_ITEM_MUTATION, {
@@ -56,6 +57,7 @@ function CreateItem(props) {
       if (!imageInputFiles.length) {
         return
       }
+      setImageUploading(true)
       const data = new FormData()
       data.append('file', imageInputFiles[0])
       data.append('upload_preset', 'sickfits')
@@ -69,6 +71,7 @@ function CreateItem(props) {
       )
 
       const file = await res.json()
+      setImageUploading(false)
       setUploadedImageData({
         image: file.secure_url,
         largeImage: file.eager[0].secure_url,
@@ -98,6 +101,8 @@ function CreateItem(props) {
             name="file"
             placeholder="Upload image"
             required
+            disabled={imageUploading}
+            aria-busy={imageUploading}
             onChange={(e) => {
               setImageInputFiles(e.target.files)
             }}
@@ -138,7 +143,13 @@ function CreateItem(props) {
             onChange={handleChange}
           />
         </label>
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          disabled={imageUploading}
+          aria-busy={imageUploading}
+        >
+          Submit
+        </button>
       </fieldset>
     </Form>
   )

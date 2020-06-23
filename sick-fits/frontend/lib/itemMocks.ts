@@ -1,7 +1,9 @@
+// import { MockedResponse } from '@apollo/react-testing'
+
 import { fakeUser } from './testUtils'
 import { SINGLE_ITEM_QUERY } from '../components/SingleItem'
 
-class ItemMock implements Item {
+class ItemMockBuilder implements Item {
   id: string
   description: string
   image: string
@@ -12,11 +14,11 @@ class ItemMock implements Item {
 
   constructor() {
     this.id = '1234'
-    this.description = 'Some description'
-    this.image = 'dog-small.jpg'
-    this.largeImage = 'dog.jpg'
+    this.description = 'Test description'
+    this.image = 'test-dog-small.jpg'
+    this.largeImage = 'test-dog.jpg'
     this.price = 5000
-    this.title = 'Product Title'
+    this.title = 'Test Product Title'
     this.user = fakeUser()
   }
   withId(id: string) {
@@ -47,17 +49,30 @@ class ItemMock implements Item {
     this.user = user
     return this
   }
+  build(): Item {
+    return {
+      description: this.description,
+      id: this.id,
+      image: this.image,
+      largeImage: this.largeImage,
+      price: this.price,
+      title: this.title,
+      user: this.user,
+    }
+  }
 }
 
-class SingleItemQueryMockBuilder extends ItemMock {
+class SingleItemQueryMockBuilder extends ItemMockBuilder {
   errorMessage: string
 
-  withError(message) {
+  withError(message: string) {
     this.errorMessage = message
     return this
   }
 
-  build() {
+  // Should be returning type `MockedResponse` instead of `any but that complicates things
+  // because TS doesn't handle the overload with same parameters signature this way
+  build(): any {
     const request = { query: SINGLE_ITEM_QUERY, variables: { id: this.id } }
     if (this.errorMessage) {
       return {
@@ -87,4 +102,4 @@ class SingleItemQueryMockBuilder extends ItemMock {
   }
 }
 
-export { SingleItemQueryMockBuilder }
+export { ItemMockBuilder, SingleItemQueryMockBuilder }

@@ -30,15 +30,11 @@ function generateComponent(mocks = []) {
 }
 
 function getElements() {
-  // <form> isn't an accessible role by default so we're querying the <fieldset>
-  const fieldset = screen.getByRole('group')
-  const emailInput = screen.getByLabelText(/email/i)
-  const submitButton = screen.getByRole('button')
-
   return {
-    fieldset,
-    emailInput,
-    submitButton,
+    // <form> isn't an accessible role by default so we're querying the <fieldset>
+    fieldset: screen.getByRole('group'),
+    emailInput: screen.getByLabelText(/email/i),
+    submitButton: screen.getByRole('button'),
   }
 }
 

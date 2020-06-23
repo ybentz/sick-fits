@@ -52,6 +52,7 @@
     "graphql-tools": "^6.0.9",
     "jest": "^26.0.1",
     "jest-transform-graphql": "^2.1.0",
+    "msw": "^0.19.4",
     "typescript": "^3.9.5"
   },
   "jest": {
@@ -62,7 +63,10 @@
     "transform": {
       "\\.(gql|graphql)$": "jest-transform-graphql",
       ".*": "babel-jest"
-    }
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/lib/test/setupEnv.js"
+    ]
   },
   "//": "This is our babel config, I prefer this over a .babelrc file",
   "babel": {
