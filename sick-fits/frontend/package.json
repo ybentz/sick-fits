@@ -56,19 +56,6 @@
     "msw": "^0.19.4",
     "typescript": "^3.9.5"
   },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "<rootDir>/.next/",
-      "<rootDir>/node_modules/"
-    ],
-    "transform": {
-      "\\.(gql|graphql)$": "jest-transform-graphql",
-      ".*": "babel-jest"
-    },
-    "setupFilesAfterEnv": [
-      "<rootDir>/lib/test/setupEnv.js"
-    ]
-  },
   "//": "This is our babel config, I prefer this over a .babelrc file",
   "babel": {
     "env": {
