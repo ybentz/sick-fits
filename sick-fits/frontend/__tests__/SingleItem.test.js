@@ -1,16 +1,17 @@
+import React from 'react'
 import { MockedProvider } from '@apollo/react-testing'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 
 import SingleItem from '../components/SingleItem'
-import { SingleItemQueryMockBuilder } from '../lib/itemMocks'
+import { SingleItemQueryMockBuilder } from '../lib/mocks/itemMocks'
 import { waitForApolloStateChange } from '../lib/testUtils'
 
 describe('<SingleItem/>', () => {
   it('should render', async () => {
     const mockedItemQuery = new SingleItemQueryMockBuilder().build()
     const data = mockedItemQuery.result.data.item
-    const {} = render(
+    render(
       <MockedProvider mocks={[mockedItemQuery]} addTypename={false}>
         <SingleItem id={data.id} />
       </MockedProvider>
@@ -35,7 +36,7 @@ describe('<SingleItem/>', () => {
       .withId(id)
       .withError(errorText)
       .build()
-    const { asFragment } = render(
+    render(
       <MockedProvider mocks={[mockedItemQuery]} addTypename={false}>
         <SingleItem id={id} />
       </MockedProvider>

@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 
 import Nav from '../components/Nav'
-import { CurrentUserQueryMockBuilder } from '../lib/userMocks'
+import { CurrentUserQueryMockBuilder } from '../lib/mocks/userMocks'
 import { waitForApolloStateChange } from '../lib/testUtils'
 
 describe('<Nav/>', () => {
@@ -12,7 +12,7 @@ describe('<Nav/>', () => {
     const mockedUserQuery = new CurrentUserQueryMockBuilder()
       .setSignedOut()
       .build()
-    const { asFragment } = render(
+    render(
       <MockedProvider mocks={[mockedUserQuery]} addTypename={false}>
         <Nav />
       </MockedProvider>
@@ -34,7 +34,7 @@ describe('<Nav/>', () => {
     const mockedUserQuery = new CurrentUserQueryMockBuilder()
       .setSignedIn()
       .build()
-    const { asFragment } = render(
+    render(
       <MockedProvider mocks={[mockedUserQuery]} addTypename={false}>
         <Nav />
       </MockedProvider>
@@ -61,7 +61,7 @@ describe('<Nav/>', () => {
       .withCartItems(cartItemsCount)
       .build()
 
-    const { asFragment } = render(
+    render(
       <MockedProvider mocks={[mockedUser]} addTypename={false}>
         <Nav />
       </MockedProvider>

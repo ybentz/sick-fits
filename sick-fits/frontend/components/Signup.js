@@ -21,7 +21,7 @@ const SIGNUP_MUTATION = gql`
   }
 `
 
-function Signup(props) {
+function Signup() {
   const initialState = {
     email: '',
     name: '',

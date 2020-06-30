@@ -55,7 +55,7 @@ function UpdateItem({ id }) {
 
   const updateItem = async (e) => {
     e.preventDefault()
-    const res = await updateItemMutation({
+    await updateItemMutation({
       variables: {
         id,
         ...inputs,

@@ -27,7 +27,7 @@ const CREATE_ITEM_MUTATION = gql`
   }
 `
 
-function CreateItem(props) {
+function CreateItem() {
   // File input is currently not handled by useForm so it's missing the image, largeImage fields
   const initialFormState = {
     description: 'Real pretty shoe description',

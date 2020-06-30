@@ -1,10 +1,11 @@
+import React from 'react'
 import { MockedProvider } from '@apollo/react-testing'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 
 import Pagination from '../components/Pagination'
 import { waitForApolloStateChange } from '../lib/testUtils'
-import { PaginationQueryMockBuilder } from '../lib/paginationMocks'
+import { PaginationQueryMockBuilder } from '../lib/mocks/paginationMocks'
 import { perPage } from '../config'
 
 function generateComponent(page, mocks) {

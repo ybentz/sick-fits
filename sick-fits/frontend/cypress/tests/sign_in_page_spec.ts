@@ -12,7 +12,7 @@ describe('Sign In Page', () => {
     cy.get('form')
       .contains(/sign in/i)
       .parents('form')
-      .within(($form) => {
+      .within(() => {
         cy.get('input[type="email"]').type('test@test.com')
         cy.get('input[type="password"]').type('123456')
         cy.get('button[type="submit"]').click()

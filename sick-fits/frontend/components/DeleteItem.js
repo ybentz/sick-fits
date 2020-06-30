@@ -27,7 +27,7 @@ function DeleteItem(props) {
     })
   }
 
-  const [deleteItem, { error }] = useMutation(DELETE_ITEM_MUTATION, {
+  const [deleteItem] = useMutation(DELETE_ITEM_MUTATION, {
     variables: { id: props.id },
     update,
     awaitRefetchQueries: true,

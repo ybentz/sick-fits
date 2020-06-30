@@ -1,8 +1,9 @@
+import React from 'react'
 import { useRouter } from 'next/router'
 
 import ResetPassword from '../components/ResetPassword'
 
-function Reset(props) {
+function Reset() {
   const { query } = useRouter()
 
   return (

@@ -1,3 +1,4 @@
+import React from 'react'
 import { MockedProvider } from '@apollo/react-testing'
 import '@testing-library/jest-dom'
 import { render, screen, waitFor } from '@testing-library/react'
@@ -10,7 +11,7 @@ if (!global.fetch) {
   global.fetch = fetch
 }
 
-import { ItemMockBuilder } from '../lib/itemMocks'
+import { ItemMockBuilder } from '../lib/mocks/itemMocks'
 import CreateItem, { CREATE_ITEM_MUTATION } from '../components/CreateItem'
 import { waitForApolloStateChange } from '../lib/testUtils'
 

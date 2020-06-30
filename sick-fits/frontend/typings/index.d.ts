@@ -16,7 +16,7 @@ declare type User = {
   name: string
   permissions: string[]
   // TODO - should implement OrderItem type
-  orders: any[]
+  orders: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 declare type CartItem = {

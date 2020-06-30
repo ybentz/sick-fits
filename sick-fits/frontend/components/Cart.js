@@ -38,7 +38,7 @@ function Cart() {
         <CloseButton title="close" onClick={toggleCart}>
           &times;
         </CloseButton>
-        <Supreme>{user.name}'s Cart</Supreme>
+        <Supreme>{user.name}&apos;s Cart</Supreme>
         <p>
           You have {user.cart.length} item
           {user.cart.length === 1 ? '' : 's'} in your cart

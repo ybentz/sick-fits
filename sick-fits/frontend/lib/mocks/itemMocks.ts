@@ -1,7 +1,7 @@
 // import { MockedResponse } from '@apollo/react-testing'
 
-import { fakeUser } from './testUtils'
-import { SINGLE_ITEM_QUERY } from '../components/SingleItem'
+import { fakeUser } from '../testUtils'
+import { SINGLE_ITEM_QUERY } from '../../components/SingleItem'
 
 class ItemMockBuilder implements Item {
   id: string
@@ -21,31 +21,31 @@ class ItemMockBuilder implements Item {
     this.title = 'Test Product Title'
     this.user = fakeUser()
   }
-  withId(id: string) {
+  withId(id: string): ItemMockBuilder {
     this.id = id
     return this
   }
-  withDescription(description: string) {
+  withDescription(description: string): ItemMockBuilder {
     this.description = description
     return this
   }
-  withImage(url: string) {
+  withImage(url: string): ItemMockBuilder {
     this.image = url
     return this
   }
-  withLargeImage(url: string) {
+  withLargeImage(url: string): ItemMockBuilder {
     this.largeImage = url
     return this
   }
-  withPrice(price: number) {
+  withPrice(price: number): ItemMockBuilder {
     this.price = price
     return this
   }
-  withTitle(title: string) {
+  withTitle(title: string): ItemMockBuilder {
     this.title = title
     return this
   }
-  withUser(user: User) {
+  withUser(user: User): ItemMockBuilder {
     this.user = user
     return this
   }
@@ -65,7 +65,7 @@ class ItemMockBuilder implements Item {
 class SingleItemQueryMockBuilder extends ItemMockBuilder {
   errorMessage: string
 
-  withError(message: string) {
+  withError(message: string): SingleItemQueryMockBuilder {
     this.errorMessage = message
     return this
   }

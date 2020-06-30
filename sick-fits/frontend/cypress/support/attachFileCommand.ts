@@ -6,7 +6,7 @@ Cypress.Commands.add(
     prevSubject: 'element',
   },
   (
-    input: HTMLInputElement,
+    input: Cypress.Chainable<HTMLInputElement>,
     fileName: string,
     fileType: string
   ): Cypress.Chainable<HTMLInputElement> => {
@@ -26,16 +26,10 @@ Cypress.Commands.add(
 
 // Reference: https://github.com/cypress-io/add-cypress-custom-command-in-typescript/blob/master/cypress/support/commands.ts
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
-      /**
-       * @memberof Chainable
-       * @param input
-       * @param fileName
-       * @param fileType
-       */
       attachFile: (
-        input: HTMLInputElement,
         fileName: string,
         fileType: string
       ) => Cypress.Chainable<HTMLInputElement>

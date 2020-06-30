@@ -1,5 +1,5 @@
-import { CURRENT_USER_QUERY } from '../components/User'
-import { fakeUser, fakeCartItem } from './testUtils'
+import { CURRENT_USER_QUERY } from '../../components/User'
+import { fakeUser, fakeCartItem } from '../testUtils'
 
 class CurrentUserQueryMockBuilder {
   constructor() {

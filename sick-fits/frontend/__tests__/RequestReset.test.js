@@ -1,3 +1,4 @@
+import React from 'react'
 import { MockedProvider } from '@apollo/react-testing'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'

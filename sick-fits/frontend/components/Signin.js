@@ -17,7 +17,7 @@ const SIGNIN_MUTATION = gql`
   }
 `
 
-function Signin(props) {
+function Signin() {
   const initialState = {
     email: '',
     password: '',

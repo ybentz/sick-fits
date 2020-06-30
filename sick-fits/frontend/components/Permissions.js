@@ -41,7 +41,7 @@ const ALL_USERS_QUERY = gql`
   }
 `
 
-function Permissions(props) {
+function Permissions() {
   const { data, error, loading } = useQuery(ALL_USERS_QUERY)
 
   if (loading) return <p>Loading...</p>

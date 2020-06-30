@@ -1,8 +1,9 @@
+import React from 'react'
 import { useRouter } from 'next/router'
 
 import SingleItem from '../components/SingleItem'
 
-function Item(props) {
+function Item() {
   const { query } = useRouter()
 
   return (

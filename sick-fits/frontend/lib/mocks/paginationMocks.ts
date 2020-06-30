@@ -1,4 +1,4 @@
-import { PAGINATION_QUERY } from '../components/Pagination'
+import { PAGINATION_QUERY } from '../../components/Pagination'
 
 class PaginationQueryMockBuilder {
   count: number
@@ -7,16 +7,16 @@ class PaginationQueryMockBuilder {
   constructor() {
     this.count = 1
   }
-  withItemCount(count: number) {
+  withItemCount(count: number): PaginationQueryMockBuilder {
     this.count = count
     return this
   }
-  withError(message: string) {
+  withError(message: string): PaginationQueryMockBuilder {
     this.errorMessage = message
     return this
   }
 
-  build() {
+  build(): any {
     const request = { query: PAGINATION_QUERY }
     if (this.errorMessage) {
       return {

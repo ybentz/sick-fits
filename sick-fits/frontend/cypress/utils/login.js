@@ -8,7 +8,7 @@ export function loginWithToken() {
 
 export function loginWithXHR() {
   // programmatically log in without needing the UI (requires page reload though)
-  const req = cy.request({
+  cy.request({
     method: 'POST',
     url: 'http://localhost:4444/',
     failOnStatusCode: false,
@@ -29,6 +29,4 @@ export function loginWithXHR() {
     },
   })
   cy.reload()
-  // Allow chaining if needed
-  return req
 }

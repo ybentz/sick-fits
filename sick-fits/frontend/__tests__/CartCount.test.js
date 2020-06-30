@@ -7,9 +7,7 @@ import CartCount from '../components/CartCount'
 describe('<CartCount/>', () => {
   it('updates via props', async () => {
     const count = 50
-    const { asFragment, container, rerender } = render(
-      <CartCount count={count} />
-    )
+    const { container, rerender } = render(<CartCount count={count} />)
     expect(container).toHaveTextContent(count)
     // expect(asFragment()).toMatchSnapshot()
     const updatedCount = 10

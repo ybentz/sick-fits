@@ -1,9 +1,10 @@
+import React from 'react'
 import { MockedProvider } from '@apollo/react-testing'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 
 import PleaseSignIn from '../components/PleaseSignIn'
-import { CurrentUserQueryMockBuilder } from '../lib/userMocks'
+import { CurrentUserQueryMockBuilder } from '../lib/mocks/userMocks'
 import { waitForApolloStateChange } from '../lib/testUtils'
 
 // Mocking useAutofillForm hook to avoid the `act()` warning since the hook is using useEffect

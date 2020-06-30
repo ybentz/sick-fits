@@ -33,7 +33,7 @@ function routeToItem(selectedItem, router) {
   })
 }
 
-function AutoComplete(props) {
+function AutoComplete() {
   const router = useRouter()
   const [findItems, { data, loading }] = useLazyQuery(SEARCH_ITEMS_QUERY)
   const items = data ? data.items : []

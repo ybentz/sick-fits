@@ -1,8 +1,9 @@
+import React from 'react'
 import { useRouter } from 'next/router'
 
 import Items from '../components/Items'
 
-function Home(props) {
+function Home() {
   const { query } = useRouter()
 
   return (

@@ -1,3 +1,4 @@
+import React from 'react'
 import Link from 'next/link'
 import { useMutation } from '@apollo/react-hooks'
 import NavStyles from './styles/NavStyles'
@@ -8,7 +9,7 @@ import CartCount from './CartCount'
 
 function Nav() {
   const user = useUser()
-  const [toggleCart, { data }] = useMutation(TOGGLE_CART_MUTATION)
+  const [toggleCart] = useMutation(TOGGLE_CART_MUTATION)
 
   return (
     <NavStyles>

@@ -14,7 +14,7 @@ const REQUEST_RESET_MUTATION = gql`
   }
 `
 
-function RequestReset(props) {
+function RequestReset() {
   const initialState = {
     email: '',
   }

@@ -24,21 +24,18 @@ const BigButton = styled.button`
 `
 
 function RemoveFromCart({ id }) {
-  const [removeFromCart, { loading, error }] = useMutation(
-    REMOVE_FROM_CART_MUTATION,
-    {
-      variables: { id },
-      update,
-      optimisticResponse: {
-        __typename: 'Mutation',
-        // the mocked response
-        removeFromCart: {
-          __typename: 'CartItem',
-          id,
-        },
+  const [removeFromCart, { loading }] = useMutation(REMOVE_FROM_CART_MUTATION, {
+    variables: { id },
+    update,
+    optimisticResponse: {
+      __typename: 'Mutation',
+      // the mocked response
+      removeFromCart: {
+        __typename: 'CartItem',
+        id,
       },
-    }
-  )
+    },
+  })
   // this gets called when the mutation's response returns
   // * Note: this gets the job done BUT there's a delay between the click and the item disappearing since
   // * we need to wait for the response, that's why we're using the `optimisticResponse` which allows us to
