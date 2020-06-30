@@ -1,0 +1,5 @@
+{
+  // Extending here because Jest and Chai (which Cypress uses) collides
+  // with similar but different matchers
+  "extends": ["plugin:jest/recommended"]
+}

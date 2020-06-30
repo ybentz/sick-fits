@@ -1,0 +1,8 @@
+{
+  "extends": ["plugin:cypress/recommended"],
+  "rules": {
+    // In Cypress, find* query from testing lib should not use await as Cypress
+    // tests are using promises and should note use async functions
+    "testing-library/await-async-query": "off"
+  }
+}

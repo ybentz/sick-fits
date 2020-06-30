@@ -1,0 +1,53 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:testing-library/react",
+    "plugin:react-hooks/recommended"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 10,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["react", "testing-library"],
+  "rules": {
+    "react/prop-types": "off",
+    "strict": "off"
+  },
+  "settings": {
+    // Add support for Next.js links
+    // I didn't test if this is actually needed or not, copied from some example
+    "linkComponents": [{ "name": "Link", "linkAttribute": "href" }],
+    "react": {
+      "version": "detect"
+    }
+  },
+  "overrides": [
+    // Overrides for TS files
+    {
+      // This extends the base config, doesn't replace completely.
+      // can test by running eslint in shell using --print-config
+      "extends": ["plugin:@typescript-eslint/recommended"],
+      "files": ["*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      },
+      "plugins": ["@typescript-eslint"],
+      "rules": {
+        "@typescript-eslint/no-inferrable-types": "off",
+        "@typescript-eslint/no-explicit-any": "warn"
+      }
+    }
+  ]
+}
