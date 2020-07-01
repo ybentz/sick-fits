@@ -50,7 +50,7 @@ function SingleItem(props) {
       <Head>
         <title>Sick Fits | {item.title}</title>
       </Head>
-      <img src={item.largeImage} alt="Item image" />
+      <img src={item.largeImage} alt={item.title} />
       <div className="details">
         <h2>Viewing {item.title}</h2>
         <p>{item.description}</p>

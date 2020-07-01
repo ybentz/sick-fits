@@ -31,7 +31,7 @@ function CartItem({ cartItem }) {
     )
   return (
     <CartItemStyles>
-      <img src={cartItem.item.image} alt="Cart Item Image" width="100" />
+      <img src={cartItem.item.image} alt="Cart Item" width="100" />
       <div className="cart-item-details">
         <h3>{cartItem.item.title}</h3>
         <p>

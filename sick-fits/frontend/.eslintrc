@@ -9,7 +9,8 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:testing-library/react",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -22,10 +23,24 @@
   "plugins": ["react", "testing-library"],
   "rules": {
     "react/prop-types": "off",
-    "strict": "off"
+    "strict": "off",
+    // Disable jsx-a11y warning due to next.js not allowing href in the nested <a/> inside their Link
+    // This is not great because it disables the rule almost entirely. There's an open issue for it:
+    // https://github.com/vercel/next.js/issues/5533#issuecomment-544676039
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["href"],
+        "aspects": ["invalidHref", "preferButton"]
+      }
+    ],
+    // This rule is deprecate but the change is not yet released
+    // https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/627
+    "jsx-a11y/accessible-emoji": "off"
   },
   "settings": {
-    // Add support for Next.js links
+    // Add support for Next.js links (only relevant for eslint-plugin-react)
     // I didn't test if this is actually needed or not, copied from some example
     "linkComponents": [{ "name": "Link", "linkAttribute": "href" }],
     "react": {
