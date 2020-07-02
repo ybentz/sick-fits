@@ -74,6 +74,7 @@
     "jest": "^26.1.0",
     "jest-transform-graphql": "^2.1.0",
     "msw": "^0.19.5",
+    "react-axe": "^3.5.3",
     "typescript": "^3.9.5"
   }
 }
