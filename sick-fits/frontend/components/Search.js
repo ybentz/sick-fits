@@ -70,8 +70,9 @@ function AutoComplete() {
             id: 'search',
             className: loading ? 'loading' : '',
           })}
+          aria-label="Search"
         />
-        <DropDown {...getMenuProps()}>
+        <DropDown {...getMenuProps()} aria-label="Search results">
           {isOpen &&
             items.map((item, index) => (
               <DropDownItem

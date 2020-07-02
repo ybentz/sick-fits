@@ -13,33 +13,47 @@ function Nav() {
 
   return (
     <NavStyles>
-      <Link href="/items">
-        <a>Shop</a>
-      </Link>
+      <li>
+        <Link href="/items">
+          <a>Shop</a>
+        </Link>
+      </li>
       {user && (
         <>
-          <Link href="/sell">
-            <a>Sell</a>
-          </Link>
-          <Link href="/orders">
-            <a>Orders</a>
-          </Link>
-          <Link href="/me">
-            <a>Account</a>
-          </Link>
-          <Signout />
-          <button onClick={toggleCart}>
-            My Cart
-            <CartCount
-              count={user.cart.reduce((acc, item) => acc + item.quantity, 0)}
-            />
-          </button>
+          <li>
+            <Link href="/sell">
+              <a>Sell</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/orders">
+              <a>Orders</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/me">
+              <a>Account</a>
+            </Link>
+          </li>
+          <li>
+            <Signout />
+          </li>
+          <li>
+            <button onClick={toggleCart}>
+              My Cart
+              <CartCount
+                count={user.cart.reduce((acc, item) => acc + item.quantity, 0)}
+              />
+            </button>
+          </li>
         </>
       )}
       {!user && (
-        <Link href="/signup">
-          <a>Signin</a>
-        </Link>
+        <li>
+          <Link href="/signup">
+            <a>Signin</a>
+          </Link>
+        </li>
       )}
     </NavStyles>
   )

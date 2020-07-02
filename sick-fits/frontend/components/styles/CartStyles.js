@@ -19,26 +19,6 @@ const CartStyles = styled.div`
   flex-direction: column;
   ${(props) => props.open && `transform: translateX(0);`};
   overflow: auto;
-  header {
-    border-bottom: 5px solid ${(props) => props.theme.black};
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-  }
-  footer {
-    border-top: 10px double ${(props) => props.theme.black};
-    margin-top: 2rem;
-    padding-top: 2rem;
-    display: grid;
-    grid-template-columns: auto auto;
-    align-items: center;
-    margin-top: auto;
-    width: 100%;
-    font-size: 3rem;
-    font-weight: 900;
-    p {
-      margin: 0;
-    }
-  }
   ul {
     margin: 0;
     padding: 0;
@@ -47,4 +27,27 @@ const CartStyles = styled.div`
   }
 `
 
+const CartHeader = styled.div`
+  border-bottom: 5px solid ${(props) => props.theme.black};
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+`
+
+const CartFooter = styled.div`
+  border-top: 10px double ${(props) => props.theme.black};
+  margin-top: 2rem;
+  padding-top: 2rem;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  margin-top: auto;
+  width: 100%;
+  font-size: 3rem;
+  font-weight: 900;
+  p {
+    margin: 0;
+  }
+`
+
 export default CartStyles
+export { CartHeader, CartFooter }

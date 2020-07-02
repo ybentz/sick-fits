@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const Supreme = styled.h3`
+const Supreme = styled.h2`
   background: ${(props) => props.theme.red};
   color: white;
   display: inline-block;

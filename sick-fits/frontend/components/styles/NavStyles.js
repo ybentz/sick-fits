@@ -6,22 +6,11 @@ const NavStyles = styled.ul`
   display: flex;
   justify-self: end;
   font-size: 2rem;
-  a,
-  button {
-    padding: 1rem 3rem;
+  > li {
     display: flex;
     align-items: center;
+    padding: 1rem 3rem;
     position: relative;
-    text-transform: uppercase;
-    font-weight: 900;
-    font-size: 1em;
-    background: none;
-    border: 0;
-    cursor: pointer;
-    @media (max-width: 700px) {
-      font-size: 10px;
-      padding: 0 10px;
-    }
     &:before {
       content: '';
       width: 2px;
@@ -32,6 +21,30 @@ const NavStyles = styled.ul`
       transform: skew(-20deg);
       top: 0;
       bottom: 0;
+    }
+    &:hover,
+    &:focus {
+      outline: none;
+      button:after,
+      a:after {
+        width: calc(100%);
+      }
+    }
+  }
+  button,
+  a {
+    display: flex;
+    align-items: center;
+    position: relative;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 1em;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    @media (max-width: 700px) {
+      font-size: 10px;
+      padding: 0 10px;
     }
     &:after {
       height: 2px;
@@ -44,13 +57,6 @@ const NavStyles = styled.ul`
       transition-timing-function: cubic-bezier(1, -0.65, 0, 2.31);
       left: 50%;
       margin-top: 2rem;
-    }
-    &:hover,
-    &:focus {
-      outline: none;
-      &:after {
-        width: calc(100% - 60px);
-      }
     }
   }
   @media (max-width: 1300px) {

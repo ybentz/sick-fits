@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 
 import CartItem from './CartItem'
 import { useUser } from './User'
-import CartStyles from './styles/CartStyles'
+import CartStyles, { CartHeader, CartFooter } from './styles/CartStyles'
 import Supreme from './styles/Supreme'
 import CloseButton from './styles/CloseButton'
 import SickButton from './styles/SickButton'
@@ -34,7 +34,7 @@ function Cart() {
   if (!user) return null
   return (
     <CartStyles open={localState.cartOpen}>
-      <header>
+      <CartHeader>
         <CloseButton title="close" onClick={toggleCart}>
           &times;
         </CloseButton>
@@ -43,14 +43,14 @@ function Cart() {
           You have {user.cart.length} item
           {user.cart.length === 1 ? '' : 's'} in your cart
         </p>
-      </header>
+      </CartHeader>
       {user.cart.map((cartItem) => (
         <CartItem cartItem={cartItem} key={cartItem.id} />
       ))}
-      <footer>
+      <CartFooter>
         <p>{formatMoney(calcTotalPrice(user.cart))}</p>
         <SickButton>Checkout</SickButton>
-      </footer>
+      </CartFooter>
     </CartStyles>
   )
 }

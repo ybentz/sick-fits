@@ -23,7 +23,7 @@ describe('<SingleItem/>', () => {
     expect(screen.queryByText(/loading/i)).toBeNull()
     expect(screen.getByRole('heading')).toHaveTextContent(data.title)
     expect(screen.getByText(data.description)).toBeInTheDocument()
-    expect(screen.getByAltText(/item image/i)).toHaveAttribute(
+    expect(screen.getByAltText(data.title)).toHaveAttribute(
       'src',
       data.largeImage
     )
